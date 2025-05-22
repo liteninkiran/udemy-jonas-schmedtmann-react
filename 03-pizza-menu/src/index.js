@@ -14,12 +14,15 @@ function App() {
     );
 }
 
-function Pizza() {
+function Pizza(props) {
     return (
-        <div>
-            <img src='pizzas/spinaci.jpg' alt='Pizza Spinaci' />
-            <h3>Pizza Spinaci</h3>
-            <p>Tomato, mozarella, spinach, and ricotta cheese</p>
+        <div className='pizza'>
+            <img src={props.photo} alt={props.name} />
+            <div>
+                <h3>{props.name}</h3>
+                <p>{props.ingredients}</p>
+                <span>£{props.price}</span>
+            </div>
         </div>
     );
 }
@@ -38,7 +41,18 @@ function Menu() {
     return (
         <main className='menu'>
             <h2>Our Menu</h2>
-            <Pizza />
+            <Pizza
+                name='Pizza Spinaci'
+                ingredients='Tomato, mozarella, spinach, and ricotta cheese'
+                photo='pizzas/spinaci.jpg'
+                price={10}
+            />
+            <Pizza
+                name='Pizza Funghi'
+                ingredients='Tomato, mushrooms'
+                photo='pizzas/funghi.jpg'
+                price={12}
+            />
         </main>
     );
 }
