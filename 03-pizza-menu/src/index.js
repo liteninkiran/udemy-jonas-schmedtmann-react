@@ -41,11 +41,19 @@ function Header() {
 
 function Menu() {
     const getPizza = (pizza) => <Pizza key={pizza.name} pizza={pizza} />;
+    const numPizzas = pizzaData.length;
     return (
         <main className='menu'>
             <h2>Our Menu</h2>
-            {pizzaData.length > 0 ? (
-                <ul className='pizza-list'>{pizzaData.map(getPizza)}</ul>
+            {numPizzas > 0 ? (
+                <>
+                    <p>
+                        Authentic Italian cuisine. {numPizzas} creative dishes
+                        to choose from. All from our stone oven, all organic,
+                        all delicious.
+                    </p>
+                    <ul className='pizza-list'>{pizzaData.map(getPizza)}</ul>
+                </>
             ) : (
                 <p>
                     We're still working on our menu. Please come back later :)
