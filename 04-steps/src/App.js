@@ -20,7 +20,7 @@ export default function App() {
             setStep((s) => s + 1);
         }
     };
-    const handleOpenClose = () => setIsOpen((prev) => !prev);
+    const handleOpenClose = () => setIsOpen((curr) => !curr);
     return (
         <>
             <button className='close' onClick={handleOpenClose}>
