@@ -4,7 +4,6 @@ import { pizzaData } from './data';
 import './index.css';
 
 function App() {
-    console.log(pizzaData);
     return (
         <div className='container'>
             <Header />
@@ -14,14 +13,14 @@ function App() {
     );
 }
 
-function Pizza(props) {
+function Pizza({ pizza }) {
     return (
         <div className='pizza'>
-            <img src={props.photo} alt={props.name} />
+            <img src={pizza.photoName} alt={pizza.name} />
             <div>
-                <h3>{props.name}</h3>
-                <p>{props.ingredients}</p>
-                <span>£{props.price}</span>
+                <h3>{pizza.name}</h3>
+                <p>{pizza.ingredients}</p>
+                <span>£{pizza.price}</span>
             </div>
         </div>
     );
@@ -38,21 +37,11 @@ function Header() {
 }
 
 function Menu() {
+    const getPizza = (pizza) => <Pizza key={pizza.name} pizza={pizza} />;
     return (
         <main className='menu'>
             <h2>Our Menu</h2>
-            <Pizza
-                name='Pizza Spinaci'
-                ingredients='Tomato, mozarella, spinach, and ricotta cheese'
-                photo='pizzas/spinaci.jpg'
-                price={10}
-            />
-            <Pizza
-                name='Pizza Funghi'
-                ingredients='Tomato, mushrooms'
-                photo='pizzas/funghi.jpg'
-                price={12}
-            />
+            <ul className='pizza-list'>{pizzaData.map(getPizza)}</ul>
         </main>
     );
 }
@@ -66,6 +55,7 @@ function Footer() {
 
     return (
         <footer className='footer'>
+            {new Date().toDateString()}
             {isOpen ? (
                 <p>We are open</p>
             ) : (
