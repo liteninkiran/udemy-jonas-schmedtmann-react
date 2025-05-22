@@ -44,7 +44,6 @@ function Menu() {
     return (
         <main className='menu'>
             <h2>Our Menu</h2>
-
             {pizzaData.length > 0 ? (
                 <ul className='pizza-list'>{pizzaData.map(getPizza)}</ul>
             ) : (
@@ -66,17 +65,22 @@ function Footer() {
     return (
         <footer className='footer'>
             {isOpen ? (
-                <div className='order'>
-                    <p>
-                        We are open from {openingTimes}. Come visit us or order
-                        online.
-                    </p>
-                    <button className='btn'>Order</button>
-                </div>
+                <Order openingTimes={openingTimes} />
             ) : (
                 <p>We are happy to welcome you between {openingTimes}.</p>
             )}
         </footer>
+    );
+}
+
+function Order({ openingTimes }) {
+    return (
+        <div className='order'>
+            <p>
+                We are open from {openingTimes}. Come visit us or order online.
+            </p>
+            <button className='btn'>Order</button>
+        </div>
     );
 }
 
