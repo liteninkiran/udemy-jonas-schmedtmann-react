@@ -7,7 +7,9 @@ function App() {
     console.log(pizzaData);
     return (
         <div className='container'>
-            <Pizza />
+            <Header />
+            <Menu />
+            <Footer />
         </div>
     );
 }
@@ -20,6 +22,29 @@ function Pizza() {
             <p>Tomato, mozarella, spinach, and ricotta cheese</p>
         </div>
     );
+}
+
+function Header() {
+    const style = {};
+
+    return (
+        <header className='header'>
+            <h1 style={style}>Fast React Pizza Co.</h1>
+        </header>
+    );
+}
+
+function Menu() {
+    return (
+        <div>
+            <h2>Our Menu</h2>
+            <Pizza />
+        </div>
+    );
+}
+
+function Footer() {
+    return React.createElement('footer', null, 'We are currently open!');
 }
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
