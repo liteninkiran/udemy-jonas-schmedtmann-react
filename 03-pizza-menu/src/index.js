@@ -41,7 +41,14 @@ function Menu() {
     return (
         <main className='menu'>
             <h2>Our Menu</h2>
-            <ul className='pizza-list'>{pizzaData.map(getPizza)}</ul>
+
+            {pizzaData.length > 0 ? (
+                <ul className='pizza-list'>{pizzaData.map(getPizza)}</ul>
+            ) : (
+                <p>
+                    We're still working on our menu. Please come back later :)
+                </p>
+            )}
         </main>
     );
 }
@@ -55,9 +62,14 @@ function Footer() {
 
     return (
         <footer className='footer'>
-            {new Date().toDateString()}
             {isOpen ? (
-                <p>We are open</p>
+                <div className='order'>
+                    <p>
+                        We are open from {openingTimes}. Come visit us or order
+                        online.
+                    </p>
+                    <button className='btn'>Order</button>
+                </div>
             ) : (
                 <p>We are happy to welcome you between {openingTimes}.</p>
             )}
