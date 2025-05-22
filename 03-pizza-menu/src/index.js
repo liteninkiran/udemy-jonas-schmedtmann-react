@@ -14,6 +14,9 @@ function App() {
 }
 
 function Pizza({ pizza }) {
+    if (pizza.soldOut) {
+        return null;
+    }
     return (
         <div className='pizza'>
             <img src={pizza.photoName} alt={pizza.name} />
