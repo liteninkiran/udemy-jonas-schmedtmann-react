@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+const confirmDelete = 'Are you sure you want to delete all items?';
+
 export default function App() {
     const [items, setItems] = useState([]);
     const mapFn = (item, id) =>
@@ -9,6 +11,12 @@ export default function App() {
     const handleAddItems = (item) => setItems((items) => [...items, item]);
     const handleDeleteItem = (id) => setItems((items) => deleteItem(items, id));
     const handleToggleItem = (id) => setItems((items) => toggleItem(items, id));
+    const handleClearList = () => {
+        if (window.confirm(confirmDelete)) {
+            setItems([]);
+        }
+    };
+
     return (
         <div className='app'>
             <Logo />
@@ -17,6 +25,7 @@ export default function App() {
                 items={items}
                 onDeleteItem={handleDeleteItem}
                 onToggleItem={handleToggleItem}
+                onClearList={handleClearList}
             />
             <Stats items={items} />
         </div>
