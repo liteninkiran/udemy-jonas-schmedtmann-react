@@ -9,7 +9,7 @@ const ListItem = ({ movie, type = 1 }) => {
                 <MovieInfo icon='⏳' metric={movie.runtime} text='min' />
             </>
         ) : (
-            <MovieInfo icon='🗓' metric={movie.Year} text='' />
+            <MovieInfo icon='📅' metric={movie.Year} text='' />
         );
     return (
         <li key={movie.imdbID}>
