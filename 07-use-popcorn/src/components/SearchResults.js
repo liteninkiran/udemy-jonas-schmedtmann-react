@@ -1,9 +1,11 @@
 import { useState } from 'react';
-import SearchResult from './SearchResult';
+import ListItem from './ListItem';
 
 const SearchResults = ({ movies }) => {
     const [isOpen, setIsOpen] = useState(true);
-    const mapFn = (movie) => <SearchResult movie={movie} key={movie.imdbID} />;
+    const mapFn = (movie) => (
+        <ListItem movie={movie} type={2} key={movie.imdbID} />
+    );
     const onClick = () => setIsOpen((open) => !open);
     return (
         <div className='box'>
