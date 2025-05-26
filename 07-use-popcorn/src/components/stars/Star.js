@@ -4,12 +4,13 @@ const Star = ({
     onClick,
     onMouseEnter,
     onMouseLeave,
-    colour = '#000',
+    colour,
+    size,
     full = true,
 }) => {
     const starStyle = {
-        width: `${48}px`,
-        height: `${48}px`,
+        width: `${size}px`,
+        height: `${size}px`,
         display: 'block',
         cursor: 'pointer',
     };
