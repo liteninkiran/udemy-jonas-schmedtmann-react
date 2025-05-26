@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 import Star from './Star';
 
 const containerStyle = {
@@ -57,6 +58,16 @@ const StarRating = ({
             <p style={textStyle}>{label}</p>
         </div>
     );
+};
+
+StarRating.propTypes = {
+    maxRating: PropTypes.number,
+    defaultRating: PropTypes.number,
+    colour: PropTypes.string,
+    size: PropTypes.number,
+    className: PropTypes.string,
+    labels: PropTypes.arrayOf(PropTypes.string),
+    onSetRating: PropTypes.func,
 };
 
 export default StarRating;
