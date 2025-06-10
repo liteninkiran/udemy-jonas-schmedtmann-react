@@ -17,7 +17,7 @@ const Tabbed = ({ content }) => {
             </div>
 
             {activeTab <= 2 ? (
-                <TabContent item={content.at(activeTab)} />
+                <TabContent item={content.at(activeTab)} key={activeTab} />
             ) : (
                 <DifferentContent />
             )}
