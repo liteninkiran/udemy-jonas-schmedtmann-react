@@ -10,13 +10,18 @@ const baseUrl = 'http://www.omdbapi.com/';
 
 export default function App() {
     const [movies, setMovies] = useState([]);
+    const query = 'interstellar';
+    const url = `${baseUrl}?apikey=${key}&s=${query}`;
 
-    const searchTerm = 'interstellar';
-    const url = `${baseUrl}?apikey=${key}&s=${searchTerm}`;
-    const fetchData = () =>
-        fetch(url)
-            .then((res) => res.json())
-            .then((data) => setMovies(data.Search));
+    const fetchData = () => {
+        async function fetchMovies() {
+            const res = await fetch(url);
+            const data = await res.json();
+            setMovies(data.Search);
+            console.log(data.Search);
+        }
+        fetchMovies();
+    };
 
     useEffect(fetchData, [url]);
 
