@@ -15,14 +15,14 @@ export default function App() {
     const [movies, setMovies] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
-    // const query = 'interstellar';
-    const query = 'sdafdasd';
-    const url = `${baseUrl}?apikey=${key}&s=${query}`;
+    const [query, setQuery] = useState('Interstellar');
 
     const fetchData = () => {
         async function fetchMovies() {
+            const url = `${baseUrl}?apikey=${key}&s=${query}`;
             try {
                 setIsLoading(true);
+                setError('');
                 const res = await fetch(url);
 
                 if (!res.ok) {
@@ -44,15 +44,27 @@ export default function App() {
                 setIsLoading(false);
             }
         }
+
+        if (query.length < 3) {
+            setMovies([]);
+            setError('Enter at least 3 characters in the search bar');
+            return;
+        }
+
         fetchMovies();
     };
 
-    useEffect(fetchData, [url]);
+    // useEffect(() => console.log('After Initial Render'), []);
+    // useEffect(() => console.log('After Every Render'));
+    // useEffect(() => console.log('D'), [query]);
+    // console.log('During Render');
+
+    useEffect(fetchData, [query]);
 
     return (
         <>
             <NavBar>
-                <Search movies={movies} />
+                <Search movies={movies} query={query} setQuery={setQuery} />
             </NavBar>
             <Main>
                 <ListBox>

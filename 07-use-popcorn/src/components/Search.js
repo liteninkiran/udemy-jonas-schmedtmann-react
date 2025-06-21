@@ -1,7 +1,4 @@
-import { useState } from 'react';
-
-const Search = ({ movies }) => {
-    const [query, setQuery] = useState('');
+const Search = ({ movies, query, setQuery }) => {
     const onChange = (e) => setQuery(e.target.value);
     return (
         <>
