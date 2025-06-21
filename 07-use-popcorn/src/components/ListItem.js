@@ -1,6 +1,6 @@
 import MovieInfo from './MovieInfo';
 
-const ListItem = ({ movie, handleSelectMovie, type = 1 }) => {
+const ListItem = ({ movie, handleSelectMovie, onDeleteWatched, type = 1 }) => {
     const movieInfo =
         type === 1 ? (
             <>
@@ -12,10 +12,18 @@ const ListItem = ({ movie, handleSelectMovie, type = 1 }) => {
             <MovieInfo icon='📅' metric={movie.Year} text='' />
         );
     return (
-        <li key={movie.imdbID} onClick={() => handleSelectMovie(movie.imdbID)}>
-            <img src={movie.Poster} alt={`${movie.Title} poster`} />
-            <h3>{movie.Title}</h3>
+        <li key={movie.imdbId} onClick={() => handleSelectMovie(movie.imdbId)}>
+            <img src={movie.poster} alt={`${movie.title} poster`} />
+            <h3>{movie.title}</h3>
             <div>{movieInfo}</div>
+            {onDeleteWatched && (
+                <button
+                    className='btn-delete'
+                    onClick={() => onDeleteWatched(movie.imdbId)}
+                >
+                    X
+                </button>
+            )}
         </li>
     );
 };

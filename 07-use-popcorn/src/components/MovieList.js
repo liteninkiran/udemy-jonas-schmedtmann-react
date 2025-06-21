@@ -5,7 +5,7 @@ const MovieList = ({ movies, handleSelectMovie }) => {
         <ListItem
             movie={movie}
             type={2}
-            key={movie.imdbID}
+            key={movie.imdbId}
             handleSelectMovie={handleSelectMovie}
         />
     );

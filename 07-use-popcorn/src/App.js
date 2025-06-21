@@ -24,6 +24,9 @@ export default function App() {
     const handleSelectMovie = (id) =>
         setSelectedMovie((curr) => (id === curr ? null : id));
     const handleCloseMovie = () => setSelectedMovie(null);
+    const handleAddWatched = (movie) => setWatched((curr) => [...curr, movie]);
+    const handleDeleteWatched = (id) =>
+        setWatched((curr) => curr.filter((movie) => movie.imdbId !== id));
 
     const fetchData = () => {
         const fetchMovies = async () => {
@@ -45,7 +48,15 @@ export default function App() {
                     throw new Error('No movies match this search criteria');
                 }
 
-                setMovies(data.Search);
+                const mapMovie = (movie) => ({
+                    title: movie.Title,
+                    poster: movie.Poster,
+                    type: movie.Type,
+                    year: movie.Year,
+                    imdbId: movie.imdbID,
+                });
+
+                setMovies(data.Search.map(mapMovie));
             } catch (err) {
                 setError(err.message);
             } finally {
@@ -61,11 +72,6 @@ export default function App() {
 
         fetchMovies();
     };
-
-    // useEffect(() => console.log('After Initial Render'), []);
-    // useEffect(() => console.log('After Every Render'));
-    // useEffect(() => console.log('D'), [query]);
-    // console.log('During Render');
 
     useEffect(fetchData, [query]);
 
@@ -91,12 +97,17 @@ export default function App() {
                     {selectedMovie ? (
                         <MovieDetails
                             movieId={selectedMovie}
-                            handleCloseMovie={handleCloseMovie}
+                            onCloseMovie={handleCloseMovie}
+                            onAddWatched={handleAddWatched}
+                            watched={watched}
                         />
                     ) : (
                         <>
                             <Summary watched={watched} />
-                            <WatchedList watched={watched} />
+                            <WatchedList
+                                watched={watched}
+                                onDeleteWatched={handleDeleteWatched}
+                            />
                         </>
                     )}
                 </ListBox>

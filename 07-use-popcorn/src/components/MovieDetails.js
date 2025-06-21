@@ -5,9 +5,10 @@ import Loader from './Loader';
 
 const baseUrl = 'http://www.omdbapi.com/';
 
-const MovieDetails = ({ movieId, handleCloseMovie }) => {
+const MovieDetails = ({ movieId, onCloseMovie, onAddWatched, watched }) => {
     const [movie, setMovie] = useState({});
     const [isLoading, setIsLoading] = useState(false);
+    const [userRating, setUserRating] = useState(0);
 
     const {
         Title: title,
@@ -15,6 +16,7 @@ const MovieDetails = ({ movieId, handleCloseMovie }) => {
         Poster: poster,
         Runtime: runtime,
         imdbRating,
+        imdbID: imdbId,
         Plot: plot,
         Released: released,
         Actors: actors,
@@ -32,9 +34,29 @@ const MovieDetails = ({ movieId, handleCloseMovie }) => {
             setIsLoading(false);
         };
         getMovieDetails();
+        setUserRating(0);
     };
 
     useEffect(fn, [movieId]);
+
+    const handleAdd = () => {
+        const newMovie = {
+            imdbId: movieId,
+            title,
+            year,
+            poster,
+            imdbRating: Number(imdbRating),
+            runtime: Number(runtime.split(' ').at(0)),
+            userRating,
+        };
+        onAddWatched(newMovie);
+        onCloseMovie();
+    };
+
+    const isWatched = watched.some((m) => m.imdbId === imdbId);
+    const watchedUserRating = watched.find(
+        (movie) => movie.imdbId === movieId
+    )?.userRating;
 
     return (
         <div className='details'>
@@ -43,7 +65,7 @@ const MovieDetails = ({ movieId, handleCloseMovie }) => {
             ) : (
                 <>
                     <header>
-                        <button className='btn-back' onClick={handleCloseMovie}>
+                        <button className='btn-back' onClick={onCloseMovie}>
                             &larr;
                         </button>
                         <img src={poster} alt={`Poster of {title}`} />
@@ -66,7 +88,29 @@ const MovieDetails = ({ movieId, handleCloseMovie }) => {
 
                     <section>
                         <div className='rating'>
-                            <StarRating maxRating={10} size={24} />
+                            {isWatched ? (
+                                <p>
+                                    You rated this movie {watchedUserRating}
+                                    <span>⭐</span>
+                                </p>
+                            ) : (
+                                <>
+                                    <StarRating
+                                        maxRating={10}
+                                        size={24}
+                                        onSetRating={setUserRating}
+                                        defaultRating={userRating}
+                                    />
+                                    {userRating > 0 && (
+                                        <button
+                                            className='btn-add'
+                                            onClick={handleAdd}
+                                        >
+                                            Add to List
+                                        </button>
+                                    )}
+                                </>
+                            )}
                         </div>
                         <p>
                             <em>{plot}</em>

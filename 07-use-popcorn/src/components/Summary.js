@@ -5,9 +5,9 @@ const average = (arr) => arr.reduce(reducer, 0);
 
 const Summary = ({ watched }) => {
     const averages = {
-        imdb: average(watched.map((movie) => movie.imdbRating)),
-        rating: average(watched.map((movie) => movie.userRating)),
-        runtime: average(watched.map((movie) => movie.runtime)),
+        imdb: average(watched.map((movie) => movie.imdbRating)).toFixed(2),
+        rating: average(watched.map((movie) => movie.userRating)).toFixed(2),
+        runtime: average(watched.map((movie) => movie.runtime)).toFixed(0),
     };
 
     return (
