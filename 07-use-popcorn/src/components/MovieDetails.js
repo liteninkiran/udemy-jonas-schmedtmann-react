@@ -56,7 +56,14 @@ const MovieDetails = ({ movieId, onCloseMovie, onAddWatched, watched }) => {
         onAddWatched(newMovie);
         onCloseMovie();
     };
+    const listenForEscape = () => {
+        const eventName = 'keydown';
+        const closeOnEscape = (e) => e.code === 'Escape' && onCloseMovie();
+        document.addEventListener(eventName, closeOnEscape);
+        return () => document.removeEventListener(eventName, closeOnEscape);
+    };
 
+    useEffect(listenForEscape, [onCloseMovie]);
     useEffect(fetchMovieDetails, [movieId]);
     useEffect(updateTitle, [title]);
 
