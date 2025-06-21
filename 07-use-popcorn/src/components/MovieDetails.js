@@ -24,7 +24,7 @@ const MovieDetails = ({ movieId, onCloseMovie, onAddWatched, watched }) => {
         Genre: genre,
     } = movie;
 
-    const fn = () => {
+    const fetchMovieDetails = () => {
         const getMovieDetails = async () => {
             setIsLoading(true);
             const url = `${baseUrl}?apikey=${key}&i=${movieId}`;
@@ -37,7 +37,10 @@ const MovieDetails = ({ movieId, onCloseMovie, onAddWatched, watched }) => {
         setUserRating(0);
     };
 
-    useEffect(fn, [movieId]);
+    const updateTitle = () => {
+        if (!title) return;
+        document.title = `Movie | ${title}`;
+    };
 
     const handleAdd = () => {
         const newMovie = {
@@ -52,6 +55,9 @@ const MovieDetails = ({ movieId, onCloseMovie, onAddWatched, watched }) => {
         onAddWatched(newMovie);
         onCloseMovie();
     };
+
+    useEffect(fetchMovieDetails, [movieId]);
+    useEffect(updateTitle, [title]);
 
     const isWatched = watched.some((m) => m.imdbId === imdbId);
     const watchedUserRating = watched.find(
