@@ -17,7 +17,7 @@ export default function App() {
     const [movies, setMovies] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
-    const [query, setQuery] = useState('Interstellar');
+    const [query, setQuery] = useState('');
     const [selectedMovie, setSelectedMovie] = useState(null);
     const [watched, setWatched] = useState([]);
 
@@ -29,12 +29,16 @@ export default function App() {
         setWatched((curr) => curr.filter((movie) => movie.imdbId !== id));
 
     const fetchData = () => {
+        const controller = new AbortController();
         const fetchMovies = async () => {
             const url = `${baseUrl}?apikey=${key}&s=${query}`;
             try {
                 setIsLoading(true);
                 setError('');
-                const res = await fetch(url);
+                const options = {
+                    signal: controller.signal,
+                };
+                const res = await fetch(url, options);
 
                 if (!res.ok) {
                     throw new Error(
@@ -57,8 +61,11 @@ export default function App() {
                 });
 
                 setMovies(data.Search.map(mapMovie));
+                setError('');
             } catch (err) {
-                setError(err.message);
+                if (err.name !== 'AbortError') {
+                    setError(err.message);
+                }
             } finally {
                 setIsLoading(false);
             }
@@ -71,6 +78,8 @@ export default function App() {
         }
 
         fetchMovies();
+
+        return () => controller.abort();
     };
 
     useEffect(fetchData, [query]);
