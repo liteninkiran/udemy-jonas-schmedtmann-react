@@ -8,9 +8,9 @@ import ListBox from './components/ListBox';
 import ErrorMessage from './components/ErrorMessage';
 import Summary from './components/Summary';
 import WatchedList from './components/WatchedList';
-import SelectedMovie from './components/SelectedMovie';
+import MovieDetails from './components/MovieDetails';
+import { key } from './keys';
 
-const key = '5b8881e2';
 const baseUrl = 'http://www.omdbapi.com/';
 
 export default function App() {
@@ -26,7 +26,7 @@ export default function App() {
     const handleCloseMovie = () => setSelectedMovie(null);
 
     const fetchData = () => {
-        async function fetchMovies() {
+        const fetchMovies = async () => {
             const url = `${baseUrl}?apikey=${key}&s=${query}`;
             try {
                 setIsLoading(true);
@@ -51,7 +51,7 @@ export default function App() {
             } finally {
                 setIsLoading(false);
             }
-        }
+        };
 
         if (query.length < 3) {
             setMovies([]);
@@ -89,7 +89,7 @@ export default function App() {
                 </ListBox>
                 <ListBox>
                     {selectedMovie ? (
-                        <SelectedMovie
+                        <MovieDetails
                             movieId={selectedMovie}
                             handleCloseMovie={handleCloseMovie}
                         />

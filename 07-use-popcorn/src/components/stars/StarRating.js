@@ -6,6 +6,8 @@ const containerStyle = {
     display: 'flex',
     alignItems: 'center',
     gap: '16px',
+    marginLeft: 'auto',
+    marginRight: 'auto',
 };
 
 const starContainerStyle = {
