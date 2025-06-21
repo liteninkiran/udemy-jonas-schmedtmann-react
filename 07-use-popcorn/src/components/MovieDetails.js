@@ -40,6 +40,7 @@ const MovieDetails = ({ movieId, onCloseMovie, onAddWatched, watched }) => {
     const updateTitle = () => {
         if (!title) return;
         document.title = `Movie | ${title}`;
+        return () => (document.title = 'usePopcorn');
     };
 
     const handleAdd = () => {
