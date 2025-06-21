@@ -12,6 +12,7 @@ import MovieDetails from './components/MovieDetails';
 import { key } from './keys';
 
 const baseUrl = 'http://www.omdbapi.com/';
+const lsKey = 'watched';
 
 export default function App() {
     const [movies, setMovies] = useState([]);
@@ -19,7 +20,9 @@ export default function App() {
     const [error, setError] = useState('');
     const [query, setQuery] = useState('');
     const [selectedMovie, setSelectedMovie] = useState(null);
-    const [watched, setWatched] = useState([]);
+    const [watched, setWatched] = useState(() =>
+        JSON.parse(localStorage.getItem(lsKey))
+    );
 
     const handleSelectMovie = (id) =>
         setSelectedMovie((curr) => (id === curr ? null : id));
@@ -27,6 +30,9 @@ export default function App() {
     const handleAddWatched = (movie) => setWatched((curr) => [...curr, movie]);
     const handleDeleteWatched = (id) =>
         setWatched((curr) => curr.filter((movie) => movie.imdbId !== id));
+
+    const addToStorage = () =>
+        localStorage.setItem(lsKey, JSON.stringify(watched));
 
     const fetchData = () => {
         const controller = new AbortController();
@@ -84,6 +90,7 @@ export default function App() {
     };
 
     useEffect(fetchData, [query]);
+    useEffect(addToStorage, [watched]);
 
     return (
         <>
