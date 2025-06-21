@@ -1,10 +1,15 @@
 import ListItem from './ListItem';
 
-const MovieList = ({ movies }) => {
+const MovieList = ({ movies, handleSelectMovie }) => {
     const mapFn = (movie) => (
-        <ListItem movie={movie} type={2} key={movie.imdbID} />
+        <ListItem
+            movie={movie}
+            type={2}
+            key={movie.imdbID}
+            handleSelectMovie={handleSelectMovie}
+        />
     );
-    return <ul className='list'>{movies?.map(mapFn)}</ul>;
+    return <ul className='list list-movies'>{movies?.map(mapFn)}</ul>;
 };
 
 export default MovieList;

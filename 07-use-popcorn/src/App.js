@@ -3,10 +3,12 @@ import NavBar from './components/NavBar';
 import Main from './components/Main';
 import Search from './components/Search';
 import MovieList from './components/MovieList';
-import WatchedMovies from './components/WatchedMovies';
 import Loader from './components/Loader';
 import ListBox from './components/ListBox';
 import ErrorMessage from './components/ErrorMessage';
+import Summary from './components/Summary';
+import WatchedList from './components/WatchedList';
+import SelectedMovie from './components/SelectedMovie';
 
 const key = '5b8881e2';
 const baseUrl = 'http://www.omdbapi.com/';
@@ -16,6 +18,12 @@ export default function App() {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
     const [query, setQuery] = useState('Interstellar');
+    const [selectedMovie, setSelectedMovie] = useState(null);
+    const [watched, setWatched] = useState([]);
+
+    const handleSelectMovie = (id) =>
+        setSelectedMovie((curr) => (id === curr ? null : id));
+    const handleCloseMovie = () => setSelectedMovie(null);
 
     const fetchData = () => {
         async function fetchMovies() {
@@ -73,10 +81,25 @@ export default function App() {
                     ) : error ? (
                         <ErrorMessage message={error} />
                     ) : (
-                        <MovieList movies={movies} />
+                        <MovieList
+                            movies={movies}
+                            handleSelectMovie={handleSelectMovie}
+                        />
                     )}
                 </ListBox>
-                <WatchedMovies />
+                <ListBox>
+                    {selectedMovie ? (
+                        <SelectedMovie
+                            movieId={selectedMovie}
+                            handleCloseMovie={handleCloseMovie}
+                        />
+                    ) : (
+                        <>
+                            <Summary watched={watched} />
+                            <WatchedList watched={watched} />
+                        </>
+                    )}
+                </ListBox>
             </Main>
         </>
     );
