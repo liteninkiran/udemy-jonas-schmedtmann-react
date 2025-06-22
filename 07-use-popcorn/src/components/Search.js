@@ -1,5 +1,14 @@
+import { useEffect } from 'react';
+
 const Search = ({ movies, query, setQuery }) => {
     const onChange = (e) => setQuery(e.target.value);
+
+    useEffect(() => {
+        const el = document.querySelector('.search');
+        console.log(el);
+        el.focus();
+    }, []);
+
     return (
         <>
             <div className='logo'>
