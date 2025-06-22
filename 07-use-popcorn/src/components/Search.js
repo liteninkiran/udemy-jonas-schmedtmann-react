@@ -1,13 +1,28 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
+
+const focusKeys = ['Enter', 'NumpadEnter'];
 
 const Search = ({ movies, query, setQuery }) => {
+    const inputRef = useRef(null);
+
     const onChange = (e) => setQuery(e.target.value);
 
     useEffect(() => {
-        const el = document.querySelector('.search');
-        console.log(el);
-        el.focus();
-    }, []);
+        const type = 'keydown';
+        const el = inputRef.current;
+        const listener = (e) => {
+            if (document.activeElement === el) {
+                return;
+            }
+            if (focusKeys.includes(e.code)) {
+                el.focus();
+                setQuery('');
+            }
+        };
+        document.addEventListener(type, listener);
+
+        return () => document.removeEventListener(type, listener);
+    }, [setQuery]);
 
     return (
         <>
@@ -21,6 +36,7 @@ const Search = ({ movies, query, setQuery }) => {
                 placeholder='Search movies...'
                 value={query}
                 onChange={onChange}
+                ref={inputRef}
             />
             <p className='num-results'>
                 Found <strong>{movies.length}</strong> results
