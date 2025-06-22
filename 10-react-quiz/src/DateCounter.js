@@ -1,32 +1,43 @@
-import { useReducer, useState } from 'react';
+import { useReducer } from 'react';
+
+const initialState = {
+    count: 0,
+    step: 1,
+};
 
 const reducer = (state, action) => {
-    let newState;
-    if (action.type === 'inc') newState = state + 1;
-    if (action.type === 'dec') newState = state - 1;
-    if (action.type === 'set') newState = action.payload;
-    console.log('old state', state);
-    console.log('new state', newState);
-    console.log('action', action);
-    return newState;
+    switch (action.type) {
+        case 'dec':
+            return { ...state, count: state.count - state.step };
+        case 'inc':
+            return { ...state, count: state.count + state.step };
+        case 'setCount':
+            return { ...state, count: action.payload };
+        case 'setStep':
+            return { ...state, step: action.payload };
+        case 'reset':
+            return initialState;
+        default:
+            throw new Error(`Unknown action: ${action.type}`);
+    }
 };
 
 const DateCounter = () => {
-    const [count, dispatch] = useReducer(reducer, 0);
-    const [step, setStep] = useState(1);
+    const [state, dispatch] = useReducer(reducer, initialState);
+    const { count, step } = state;
 
     // This mutates the date object.
     const date = new Date('june 21 2027');
     date.setDate(date.getDate() + count);
 
     const getTargetValue = (e) => Number(e.target.value);
-    const action = (e) => ({ type: 'set', payload: getTargetValue(e) });
+    const getAction = (e, type) => ({ type, payload: getTargetValue(e) });
 
     const dec = () => dispatch({ type: 'dec' });
     const inc = () => dispatch({ type: 'inc' });
-    const defineCount = (e) => dispatch(action(e));
-    const defineStep = (e) => setStep(getTargetValue(e));
-    const reset = () => setStep(1);
+    const defineCount = (e) => dispatch(getAction(e, 'setCount'));
+    const defineStep = (e) => dispatch(getAction(e, 'setStep'));
+    const reset = () => dispatch({ type: 'reset' });
 
     return (
         <div className='counter'>
