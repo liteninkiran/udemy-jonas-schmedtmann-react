@@ -10,15 +10,12 @@ import Summary from './components/Summary';
 import WatchedList from './components/WatchedList';
 import MovieDetails from './components/MovieDetails';
 import { useMovies } from './hooks/useMovies';
-
-const lsKey = 'watched';
+import { useLocalStorageState } from './hooks/useLocalStorageState';
 
 export default function App() {
     const [query, setQuery] = useState('');
     const [selectedMovie, setSelectedMovie] = useState(null);
-    const [watched, setWatched] = useState(() =>
-        JSON.parse(localStorage.getItem(lsKey))
-    );
+    const [watched, setWatched] = useLocalStorageState([], 'watched');
 
     const handleCloseMovie = () => setSelectedMovie(null);
     const handleSelectMovie = (id) =>
@@ -26,11 +23,6 @@ export default function App() {
     const handleAddWatched = (movie) => setWatched((curr) => [...curr, movie]);
     const handleDeleteWatched = (id) =>
         setWatched((curr) => curr.filter((movie) => movie.imdbId !== id));
-
-    const addToStorage = () =>
-        localStorage.setItem(lsKey, JSON.stringify(watched));
-
-    useEffect(addToStorage, [watched]);
 
     const { movies, isLoading, error } = useMovies(query);
 
