@@ -1,28 +1,20 @@
-import { useEffect, useRef } from 'react';
-
-const focusKeys = ['Enter', 'NumpadEnter'];
+import { useRef } from 'react';
+import { useKeypress } from '../hooks/useKeypress';
 
 const Search = ({ movies, query, setQuery }) => {
     const inputRef = useRef(null);
+    const el = inputRef.current;
+    const callback = () => {
+        if (document.activeElement === el) {
+            return;
+        }
+        el.focus();
+        setQuery('');
+    };
+
+    useKeypress('keydown', 'NumpadEnter', callback);
 
     const onChange = (e) => setQuery(e.target.value);
-
-    useEffect(() => {
-        const type = 'keydown';
-        const el = inputRef.current;
-        const listener = (e) => {
-            if (document.activeElement === el) {
-                return;
-            }
-            if (focusKeys.includes(e.code)) {
-                el.focus();
-                setQuery('');
-            }
-        };
-        document.addEventListener(type, listener);
-
-        return () => document.removeEventListener(type, listener);
-    }, [setQuery]);
 
     return (
         <>

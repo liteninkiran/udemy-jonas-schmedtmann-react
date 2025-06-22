@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { key } from '../keys';
 import StarRating from './stars/StarRating';
 import Loader from './Loader';
+import { useKeypress } from '../hooks/useKeypress';
 
 const baseUrl = 'http://www.omdbapi.com/';
 
@@ -59,19 +60,13 @@ const MovieDetails = ({ movieId, onCloseMovie, onAddWatched, watched }) => {
         onAddWatched(newMovie);
         onCloseMovie();
     };
-    const listenForEscape = () => {
-        const eventName = 'keydown';
-        const closeOnEscape = (e) => e.code === 'Escape' && onCloseMovie();
-        document.addEventListener(eventName, closeOnEscape);
-        return () => document.removeEventListener(eventName, closeOnEscape);
-    };
     const updateRef = () => {
         if (userRating) {
             countRef.current++;
         }
     };
 
-    useEffect(listenForEscape, [onCloseMovie]);
+    useKeypress('keydown', 'Escape', onCloseMovie);
     useEffect(fetchMovieDetails, [movieId]);
     useEffect(updateTitle, [title]);
     useEffect(updateRef, [userRating]);
