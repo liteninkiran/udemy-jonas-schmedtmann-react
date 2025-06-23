@@ -7,6 +7,7 @@ import StartScreen from './components/StartScreen';
 import Questions from './components/Questions';
 import NextButton from './components/NextButton';
 import Progress from './components/Progress';
+import FinishedScreen from './components/FinishedScreen';
 
 const initialState = {
     questions: [],
@@ -14,6 +15,7 @@ const initialState = {
     index: 0,
     answer: null,
     points: 0,
+    highScore: 0,
 };
 
 const reducer = (state, action) => {
@@ -36,16 +38,23 @@ const reducer = (state, action) => {
             };
         case 'nextQuestion':
             return { ...state, index: state.index + 1, answer: null };
+        case 'finish':
+            return {
+                ...state,
+                status: 'finished',
+                highScore:
+                    state.points > state.highScore
+                        ? state.points
+                        : state.highScore,
+            };
         default:
             throw new Error(`Unknown action: ${action.type}`);
     }
 };
 
 const App = () => {
-    const [{ questions, status, index, answer, points }, dispatch] = useReducer(
-        reducer,
-        initialState
-    );
+    const [{ questions, status, index, answer, points, highScore }, dispatch] =
+        useReducer(reducer, initialState);
     const maxPoints = questions.reduce((acc, curr) => acc + curr.points, 0);
     useEffect(() => {
         fetch('http://localhost:8000/questions')
@@ -80,8 +89,22 @@ const App = () => {
                             dispatch={dispatch}
                             answer={answer}
                         />
-                        {answer !== null && <NextButton dispatch={dispatch} />}
+                        {
+                            <NextButton
+                                dispatch={dispatch}
+                                answer={answer}
+                                index={index}
+                                numQuestions={questions.length}
+                            />
+                        }
                     </>
+                )}
+                {status === 'finished' && (
+                    <FinishedScreen
+                        points={points}
+                        maxPoints={maxPoints}
+                        highScore={highScore}
+                    />
                 )}
             </Main>
         </div>
