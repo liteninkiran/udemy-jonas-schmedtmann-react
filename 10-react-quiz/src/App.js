@@ -8,6 +8,10 @@ import Questions from './components/Questions';
 import NextButton from './components/NextButton';
 import Progress from './components/Progress';
 import FinishedScreen from './components/FinishedScreen';
+import Footer from './components/Footer';
+import Timer from './components/Timer';
+
+const SECONDS_PER_QUESTION = 30;
 
 const initialState = {
     questions: [],
@@ -16,6 +20,7 @@ const initialState = {
     answer: null,
     points: 0,
     highScore: 0,
+    secondsRemaining: null,
 };
 
 const reducer = (state, action) => {
@@ -25,7 +30,11 @@ const reducer = (state, action) => {
         case 'dataFailed':
             return { ...state, status: 'error' };
         case 'start':
-            return { ...state, status: 'active' };
+            return {
+                ...state,
+                status: 'active',
+                secondsRemaining: state.questions.length * SECONDS_PER_QUESTION,
+            };
         case 'newAnswer':
             const question = state.questions.at(state.index);
             return {
@@ -54,14 +63,30 @@ const reducer = (state, action) => {
                 highScore: state.highScore,
                 status: 'ready',
             };
+        case 'tick':
+            return {
+                ...state,
+                secondsRemaining: state.secondsRemaining - 1,
+                status: state.secondsRemaining <= 1 ? 'finished' : state.status,
+            };
         default:
             throw new Error(`Unknown action: ${action.type}`);
     }
 };
 
 const App = () => {
-    const [{ questions, status, index, answer, points, highScore }, dispatch] =
-        useReducer(reducer, initialState);
+    const [
+        {
+            questions,
+            status,
+            index,
+            answer,
+            points,
+            highScore,
+            secondsRemaining,
+        },
+        dispatch,
+    ] = useReducer(reducer, initialState);
     const maxPoints = questions.reduce((acc, curr) => acc + curr.points, 0);
     useEffect(() => {
         fetch('http://localhost:8000/questions')
@@ -96,14 +121,18 @@ const App = () => {
                             dispatch={dispatch}
                             answer={answer}
                         />
-                        {
+                        <Footer>
+                            <Timer
+                                dispatch={dispatch}
+                                secondsRemaining={secondsRemaining}
+                            />
                             <NextButton
                                 dispatch={dispatch}
                                 answer={answer}
                                 index={index}
                                 numQuestions={questions.length}
                             />
-                        }
+                        </Footer>
                     </>
                 )}
                 {status === 'finished' && (
