@@ -7,6 +7,7 @@ import PageNotFound from './pages/PageNotFound';
 import AppLayout from './pages/AppLayout';
 import CityList from './components/CityList';
 import { useEffect, useState } from 'react';
+import CountryList from './components/CountryList';
 
 const BASE_URL = 'http://localhost:9001';
 
@@ -32,7 +33,12 @@ const App = () => {
     }, []);
 
     return (
-        <BrowserRouter>
+        <BrowserRouter
+            future={{
+                v7_startTransition: true,
+                v7_relativeSplatPath: true,
+            }}
+        >
             <Routes>
                 <Route index element={<Homepage />} />
                 <Route path='product' element={<Product />} />
@@ -53,7 +59,12 @@ const App = () => {
                     />
                     <Route
                         path='countries'
-                        element={<p>List of Countries</p>}
+                        element={
+                            <CountryList
+                                cities={cities}
+                                isLoading={isLoading}
+                            />
+                        }
                     />
                     <Route path='form' element={<p>Form</p>} />
                 </Route>
