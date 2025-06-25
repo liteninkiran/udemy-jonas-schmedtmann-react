@@ -8,6 +8,7 @@ import AppLayout from './pages/AppLayout';
 import CityList from './components/CityList';
 import { useEffect, useState } from 'react';
 import CountryList from './components/CountryList';
+import City from './components/City';
 
 const BASE_URL = 'http://localhost:9001';
 
@@ -15,7 +16,7 @@ const App = () => {
     const [cities, setCities] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
-    useEffect(() => {
+    const fetchCityData = () => {
         const fetchCities = async () => {
             try {
                 setIsLoading(true);
@@ -30,7 +31,9 @@ const App = () => {
             }
         };
         fetchCities();
-    }, []);
+    };
+
+    useEffect(fetchCityData, []);
 
     return (
         <BrowserRouter
@@ -57,6 +60,7 @@ const App = () => {
                             <CityList cities={cities} isLoading={isLoading} />
                         }
                     />
+                    <Route path='cities/:id' element={<City />}></Route>
                     <Route
                         path='countries'
                         element={
