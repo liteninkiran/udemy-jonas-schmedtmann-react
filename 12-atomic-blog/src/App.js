@@ -7,7 +7,7 @@ import Footer from './components/Footer';
 
 import { createRandomPost } from './helper';
 
-const PostContext = createContext();
+export const PostContext = createContext();
 
 const App = () => {
     const [posts, setPosts] = useState(() =>
@@ -51,14 +51,9 @@ const App = () => {
                     {isFakeDark ? '☀️' : '🌙'}
                 </button>
 
-                <Header
-                    posts={searchedPosts}
-                    onClearPosts={handleClearPosts}
-                    searchQuery={searchQuery}
-                    setSearchQuery={setSearchQuery}
-                />
-                <Main posts={searchedPosts} onAddPost={handleAddPost} />
-                <Archive onAddPost={handleAddPost} />
+                <Header />
+                <Main />
+                <Archive />
                 <Footer />
             </section>
         </PostContext.Provider>

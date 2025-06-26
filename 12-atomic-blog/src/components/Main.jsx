@@ -1,11 +1,11 @@
 import FormAddPost from './FormAddPost';
 import Posts from './Posts';
 
-const Main = ({ posts, onAddPost }) => {
+const Main = () => {
     return (
         <main>
-            <FormAddPost onAddPost={onAddPost} />
-            <Posts posts={posts} />
+            <FormAddPost />
+            <Posts />
         </main>
     );
 };
