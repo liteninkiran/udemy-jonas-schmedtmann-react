@@ -1,9 +1,9 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { createRandomPost } from '../helper';
-import { PostContext } from '../App';
+import { usePosts } from '../PostContext';
 
 const Archive = () => {
-    const { onAddPost } = useContext(PostContext);
+    const { onAddPost } = usePosts();
     // Here we don't need the setter function. We're only using state to store
     // these posts because the callback function passed into useState (which
     // generates the posts) is only called once, on the initial render. So we
