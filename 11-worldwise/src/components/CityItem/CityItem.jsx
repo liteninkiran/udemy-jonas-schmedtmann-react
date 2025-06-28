@@ -1,4 +1,4 @@
-import { formatDate } from './helper';
+import { formatDate } from '../helper';
 import styles from './CityItem.module.css';
 import { Link } from 'react-router-dom';
 

@@ -1,7 +1,7 @@
-import Spinner from './Spinner';
+import Spinner from '../Spinner/Spinner';
 import styles from './CityList.module.css';
-import CityItem from './CityItem';
-import Message from './Message';
+import CityItem from '../CityItem/CityItem';
+import Message from '../Message/Message';
 
 const msg = 'Add your first city by clicking on a city on the map';
 
