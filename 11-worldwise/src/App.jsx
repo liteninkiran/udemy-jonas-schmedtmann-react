@@ -11,7 +11,7 @@ import CityList from './components/CityList/CityList';
 import CountryList from './components/CountryList/CountryList';
 import City from './components/City/City';
 import Form from './components/Form/Form';
-import { CitiesProvider } from './contexts/CitiesContext';
+import { CitiesProvider } from './contexts/Cities/CitiesProvider';
 
 const future = {
     v7_startTransition: true,

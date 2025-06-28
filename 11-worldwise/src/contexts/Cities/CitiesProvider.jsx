@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
-import { createContext } from 'react';
+import { CitiesContext } from './CitiesContext';
 
 const BASE_URL = 'http://localhost:9001';
-
-const CitiesContext = createContext();
 
 const CitiesProvider = ({ children }) => {
     const [cities, setCities] = useState([]);
