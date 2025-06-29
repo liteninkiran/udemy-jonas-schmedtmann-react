@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
     MapContainer,
     Marker,
@@ -8,18 +8,18 @@ import {
     useMap,
     useMapEvents,
 } from 'react-leaflet';
-import { useCities } from '../../contexts/Cities/useCities';
-import styles from './Map.module.css';
-import { useGeolocation } from '../../hooks/useGeolocation';
 import Button from '../Button/Button';
+import { useCities } from '../../contexts/Cities/useCities';
+import { useGeolocation } from '../../hooks/useGeolocation';
+import { useUrlPosition } from '../../hooks/useUrlPosition';
+import styles from './Map.module.css';
 
 const url = 'https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png';
 
 const Map = () => {
     const { cities } = useCities();
-    const [searchParams] = useSearchParams();
     const [position, setPosition] = useState([51.349985, -1.67121]);
-
+    const [mapLat, mapLng] = useUrlPosition();
     const {
         isLoading: isLoadingPosition,
         position: geolocationPosition,
@@ -27,8 +27,6 @@ const Map = () => {
         getPosition: getGeolocationPosition,
     } = useGeolocation();
 
-    const mapLat = searchParams.get('lat');
-    const mapLng = searchParams.get('lng');
     const getPosition = (city) => [city.position.lat, city.position.lng];
     const mapCities = (city) => (
         <Marker position={getPosition(city)} key={city.id}>
