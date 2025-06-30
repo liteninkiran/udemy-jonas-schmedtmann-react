@@ -8,6 +8,7 @@ import Pricing from './pages/Pricing/Pricing';
 import Login from './pages/Login/Login';
 import PageNotFound from './pages/PageNotFound/PageNotFound';
 import AppLayout from './pages/AppLayout/AppLayout';
+import ProtectedRoute from './pages/ProtectedRoute/ProtectedRoute';
 
 // Components
 import CityList from './components/CityList/CityList';
@@ -25,6 +26,12 @@ const future = {
 };
 
 const App = () => {
+    const appElement = (
+        <ProtectedRoute>
+            <AppLayout />
+        </ProtectedRoute>
+    );
+    const rootRoute = <Navigate to='cities' replace />;
     return (
         <AuthProvider>
             <CitiesProvider>
@@ -34,11 +41,8 @@ const App = () => {
                         <Route path='product' element={<Product />} />
                         <Route path='pricing' element={<Pricing />} />
                         <Route path='login' element={<Login />} />
-                        <Route path='app' element={<AppLayout />}>
-                            <Route
-                                index
-                                element={<Navigate to='cities' replace />}
-                            />
+                        <Route path='app' element={appElement}>
+                            <Route index element={rootRoute} />
                             <Route path='cities' element={<CityList />} />
                             <Route path='cities/:id' element={<City />}></Route>
                             <Route path='countries' element={<CountryList />} />
