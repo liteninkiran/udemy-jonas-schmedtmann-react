@@ -22,7 +22,7 @@ const CitiesProvider = ({ children }) => {
         }
     };
 
-    async function createCity(newCity) {
+    const createCity = async (newCity) => {
         try {
             setIsLoading(true);
             const url = `${BASE_URL}/cities`;
@@ -35,17 +35,43 @@ const CitiesProvider = ({ children }) => {
             const data = await res.json();
             setCities([...cities, data]);
         } catch (err) {
-            console.log(err);
+            alert('Error creating city');
         } finally {
             setIsLoading(false);
         }
-    }
+    };
 
     const fetchCityData = () => {
         fetchCities('cities', setCities);
     };
+
+    const deleteCity = async (id) => {
+        try {
+            setIsLoading(true);
+            const url = `${BASE_URL}/cities/${id}`;
+            const options = {
+                method: 'DELETE',
+            };
+            await fetch(url, options);
+            const filterFn = (city) => city.id !== id;
+            setCities((cities) => cities.filter(filterFn));
+        } catch (err) {
+            alert('Error deleting city');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     const getCity = async (id) => fetchCities(`cities/${id}`, setCurrentCity);
-    const value = { cities, isLoading, currentCity, getCity, createCity };
+
+    const value = {
+        cities,
+        isLoading,
+        currentCity,
+        getCity,
+        createCity,
+        deleteCity,
+    };
 
     useEffect(fetchCityData, []);
 

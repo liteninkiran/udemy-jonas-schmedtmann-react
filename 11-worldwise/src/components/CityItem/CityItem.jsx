@@ -10,11 +10,15 @@ const dateFormat = {
 };
 
 const CityItem = ({ city }) => {
-    const { currentCity } = useCities();
+    const { currentCity, deleteCity } = useCities();
     const { cityName, emoji, date, id, position } = city;
     const url = `${id}?lat=${position.lat}&lng=${position.lng}`;
     const activeCity = id === currentCity.id ? styles['cityItem--active'] : '';
     const linkClass = `${styles.cityItem} ${activeCity}`;
+    const handleDelete = (e) => {
+        e.preventDefault();
+        deleteCity(id);
+    };
     return (
         <li>
             <Link className={linkClass} to={url}>
@@ -23,7 +27,9 @@ const CityItem = ({ city }) => {
                 <time className={styles.date}>
                     {formatDate(date, dateFormat)}
                 </time>
-                <button className={styles.deleteBtn}>&times;</button>
+                <button className={styles.deleteBtn} onClick={handleDelete}>
+                    &times;
+                </button>
             </Link>
         </li>
     );
