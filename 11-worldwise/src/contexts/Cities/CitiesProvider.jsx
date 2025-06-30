@@ -22,11 +22,30 @@ const CitiesProvider = ({ children }) => {
         }
     };
 
+    async function createCity(newCity) {
+        try {
+            setIsLoading(true);
+            const url = `${BASE_URL}/cities`;
+            const options = {
+                method: 'POST',
+                body: JSON.stringify(newCity),
+                headers: { 'Content-Type': 'application/json' },
+            };
+            const res = await fetch(url, options);
+            const data = await res.json();
+            setCities([...cities, data]);
+        } catch (err) {
+            console.log(err);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
     const fetchCityData = () => {
         fetchCities('cities', setCities);
     };
     const getCity = async (id) => fetchCities(`cities/${id}`, setCurrentCity);
-    const value = { cities, isLoading, currentCity, getCity };
+    const value = { cities, isLoading, currentCity, getCity, createCity };
 
     useEffect(fetchCityData, []);
 
