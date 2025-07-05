@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from 'react';
+import { useCallback, useEffect, useReducer } from 'react';
 import { CitiesContext } from './CitiesContext';
 
 const BASE_URL = 'http://localhost:9001';
@@ -109,12 +109,14 @@ const CitiesProvider = ({ children }) => {
         fetchCities('cities', 'cities/loaded');
     };
 
-    const getCity = async (id) => {
+    const getCityFn = async (id) => {
         if (Number(id) === currentCity.id) {
             return;
         }
         fetchCities(`cities/${id}`, 'city/loaded');
     };
+
+    const getCity = useCallback(getCityFn, [currentCity.id]);
 
     const value = {
         cities,
