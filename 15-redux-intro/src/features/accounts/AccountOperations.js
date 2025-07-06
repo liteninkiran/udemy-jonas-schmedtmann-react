@@ -16,7 +16,8 @@ const AccountOperations = () => {
         if (!depositAmount) {
             return;
         }
-        dispatch(deposit(depositAmount, currency));
+        const d = deposit(depositAmount, currency);
+        dispatch(d);
         setDepositAmount('');
         setCurrency('USD');
     };
@@ -25,7 +26,8 @@ const AccountOperations = () => {
         if (!withdrawalAmount) {
             return;
         }
-        dispatch(withdraw(withdrawalAmount));
+        const w = withdraw(withdrawalAmount);
+        dispatch(w);
         setWithdrawalAmount('');
     };
 
