@@ -1,68 +1,6 @@
 import { combineReducers, createStore } from 'redux';
-
-const initialStateAccount = {
-    balance: 0,
-    loan: 0,
-    loanPurpose: '',
-};
-
-const initialStateCustomer = {
-    fullName: '',
-    nationalId: '',
-    createdAt: '',
-};
-
-const accountReducer = (state = initialStateAccount, action) => {
-    switch (action.type) {
-        case 'account/deposit':
-            return {
-                ...state,
-                balance: state.balance + action.payload,
-            };
-        case 'account/withdraw':
-            return {
-                ...state,
-                balance: state.balance - action.payload,
-            };
-
-        case 'account/requestLoan':
-            if (state.loan > 0) return state;
-            return {
-                ...state,
-                loan: action.payload.amount,
-                loanPurpose: action.payload.purpose,
-                balance: state.balance + action.payload.amount,
-            };
-        case 'account/payLoan':
-            return {
-                ...state,
-                loan: 0,
-                loanPurpose: '',
-                balance: state.balance - state.loan,
-            };
-        default:
-            return state;
-    }
-};
-
-const customerReducer = (state = initialStateCustomer, action) => {
-    switch (action.type) {
-        case 'customer/createCustomer':
-            return {
-                ...state,
-                fullName: action.payload.fullName,
-                nationalId: action.payload.nationalId,
-                createdAt: action.payload.createdAt,
-            };
-        case 'customer/updateName':
-            return {
-                ...state,
-                fullName: action.payload,
-            };
-        default:
-            return state;
-    }
-};
+import { reducer as accountReducer } from './features/accounts/accountSlice';
+import { reducer as customerReducer } from './features/customers/customerSlice';
 
 const rootReducer = combineReducers({
     account: accountReducer,
@@ -71,42 +9,4 @@ const rootReducer = combineReducers({
 
 const store = createStore(rootReducer);
 
-const deposit = (amount) => ({
-    type: 'account/deposit',
-    payload: amount,
-});
-const withdraw = (amount) => ({
-    type: 'account/withdraw',
-    payload: amount,
-});
-const requestLoan = (amount, purpose) => ({
-    type: 'account/requestLoan',
-    payload: { amount, purpose },
-});
-const payLoan = () => ({
-    type: 'account/payLoan',
-});
-
-const createCustomer = (fullName, nationalId) => ({
-    type: 'customer/createCustomer',
-    payload: {
-        fullName,
-        nationalId,
-        createdAt: new Date().toISOString(),
-    },
-});
-
-const updateName = (fullName) => ({
-    type: 'customer/updateName',
-    payload: fullName,
-});
-
-store.dispatch(deposit(500));
-store.dispatch(withdraw(200));
-store.dispatch(requestLoan(1000, 'Buy a car'));
-store.dispatch(payLoan());
-
-store.dispatch(createCustomer('David Jones', 'GH123546S'));
-store.dispatch(updateName('Davey Jones'));
-
-console.log(store.getState());
+export default store;
