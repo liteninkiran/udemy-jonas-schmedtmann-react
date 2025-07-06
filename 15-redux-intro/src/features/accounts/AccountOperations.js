@@ -12,13 +12,12 @@ const AccountOperations = () => {
     const dispatch = useDispatch();
     const account = useSelector((store) => store.account);
 
-    console.log(account);
-
     const handleDeposit = () => {
         if (!depositAmount) {
             return;
         }
-        dispatch(deposit(depositAmount));
+        dispatch(deposit(depositAmount, currency));
+        setDepositAmount('');
     };
 
     const handleWithdrawal = () => {
@@ -26,6 +25,7 @@ const AccountOperations = () => {
             return;
         }
         dispatch(withdraw(withdrawalAmount));
+        setWithdrawalAmount('');
     };
 
     const handleRequestLoan = () => {
@@ -33,6 +33,8 @@ const AccountOperations = () => {
             return;
         }
         dispatch(requestLoan(loanAmount, loanPurpose));
+        setLoanAmount('');
+        setLoanPurpose('');
     };
 
     const handlePayLoan = () => {
@@ -47,6 +49,7 @@ const AccountOperations = () => {
                     <label>Deposit</label>
                     <input
                         type='number'
+                        min={0.01}
                         value={depositAmount}
                         onChange={(e) => setDepositAmount(+e.target.value)}
                     />
@@ -59,8 +62,13 @@ const AccountOperations = () => {
                         <option value='GBP'>British Pound</option>
                     </select>
 
-                    <button onClick={handleDeposit}>
-                        Deposit {depositAmount}
+                    <button
+                        onClick={handleDeposit}
+                        disabled={account.isLoading}
+                    >
+                        {account.isLoading
+                            ? 'Converting'
+                            : `Deposit ${depositAmount}`}
                     </button>
                 </div>
 
@@ -68,6 +76,7 @@ const AccountOperations = () => {
                     <label>Withdraw</label>
                     <input
                         type='number'
+                        min={0.01}
                         value={withdrawalAmount}
                         onChange={(e) => setWithdrawalAmount(+e.target.value)}
                     />
@@ -80,6 +89,7 @@ const AccountOperations = () => {
                     <label>Request loan</label>
                     <input
                         type='number'
+                        min={0.01}
                         value={loanAmount}
                         onChange={(e) => setLoanAmount(+e.target.value)}
                         placeholder='Loan amount'
