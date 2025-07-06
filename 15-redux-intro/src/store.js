@@ -1,12 +1,18 @@
-import { createStore } from 'redux';
+import { combineReducers, createStore } from 'redux';
 
-const initialState = {
+const initialStateAccount = {
     balance: 0,
     loan: 0,
     loanPurpose: '',
 };
 
-const reducer = (state = initialState, action) => {
+const initialStateCustomer = {
+    fullName: '',
+    nationalId: '',
+    createdAt: '',
+};
+
+const accountReducer = (state = initialStateAccount, action) => {
     switch (action.type) {
         case 'account/deposit':
             return {
@@ -39,7 +45,31 @@ const reducer = (state = initialState, action) => {
     }
 };
 
-const store = createStore(reducer);
+const customerReducer = (state = initialStateCustomer, action) => {
+    switch (action.type) {
+        case 'customer/createCustomer':
+            return {
+                ...state,
+                fullName: action.payload.fullName,
+                nationalId: action.payload.nationalId,
+                createdAt: action.payload.createdAt,
+            };
+        case 'customer/updateName':
+            return {
+                ...state,
+                fullName: action.payload,
+            };
+        default:
+            return state;
+    }
+};
+
+const rootReducer = combineReducers({
+    account: accountReducer,
+    customer: customerReducer,
+});
+
+const store = createStore(rootReducer);
 
 const deposit = (amount) => ({
     type: 'account/deposit',
@@ -57,14 +87,26 @@ const payLoan = () => ({
     type: 'account/payLoan',
 });
 
+const createCustomer = (fullName, nationalId) => ({
+    type: 'customer/createCustomer',
+    payload: {
+        fullName,
+        nationalId,
+        createdAt: new Date().toISOString(),
+    },
+});
+
+const updateName = (fullName) => ({
+    type: 'customer/updateName',
+    payload: fullName,
+});
+
 store.dispatch(deposit(500));
-console.log(store.getState());
-
 store.dispatch(withdraw(200));
-console.log(store.getState());
-
 store.dispatch(requestLoan(1000, 'Buy a car'));
-console.log(store.getState());
-
 store.dispatch(payLoan());
+
+store.dispatch(createCustomer('David Jones', 'GH123546S'));
+store.dispatch(updateName('Davey Jones'));
+
 console.log(store.getState());
