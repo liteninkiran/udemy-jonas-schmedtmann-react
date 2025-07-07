@@ -1,5 +1,10 @@
+import { useLoaderData } from 'react-router-dom';
+import MenuItem from './MenuItem';
+
 const Menu = () => {
-    return <h1>Menu</h1>;
+    const menu = useLoaderData();
+    const mapFn = (pizza) => <MenuItem pizza={pizza} key={pizza.id} />;
+    return <ul>{menu.map(mapFn)}</ul>;
 };
 
 export default Menu;
