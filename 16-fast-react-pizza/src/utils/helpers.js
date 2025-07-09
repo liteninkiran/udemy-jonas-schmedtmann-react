@@ -1,4 +1,5 @@
-import { getMenu, getOrder } from '../services/apiRestaurant';
+import { redirect } from 'react-router-dom';
+import { createOrder, getMenu, getOrder } from '../services/apiRestaurant';
 
 export const formatCurrency = (value) => {
     return new Intl.NumberFormat('en', {
@@ -25,3 +26,19 @@ export const calcMinutesLeft = (dateStr) => {
 export const menuLoader = async () => await getMenu();
 
 export const orderLoader = async ({ params }) => await getOrder(params.orderId);
+
+export const action = async ({ request }) => {
+    const formData = await request.formData();
+    const data = Object.fromEntries(formData);
+    const order = {
+        ...data,
+        cart: JSON.parse(data.cart),
+        priority: data.priority === 'true',
+    };
+
+    const newOrder = await createOrder(order);
+
+    console.log(order);
+
+    return redirect(`/order/${newOrder.id}`);
+};

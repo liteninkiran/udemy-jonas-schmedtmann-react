@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Form } from 'react-router-dom';
 
 // https://uibakery.io/regex-library/phone-number
 const isValidPhone = (str) =>
@@ -38,7 +39,7 @@ const CreateOrder = () => {
         <div>
             <h2>Ready to order? Lets go!</h2>
 
-            <form>
+            <Form method='POST'>
                 <div>
                     <label>First Name</label>
                     <input type='text' name='customer' required />
@@ -72,9 +73,15 @@ const CreateOrder = () => {
                 </div>
 
                 <div>
+                    <input
+                        type='hidden'
+                        name='cart'
+                        value={JSON.stringify(cart)}
+                    />
+
                     <button>Order now</button>
                 </div>
-            </form>
+            </Form>
         </div>
     );
 };
