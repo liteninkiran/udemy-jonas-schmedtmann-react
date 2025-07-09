@@ -1,6 +1,14 @@
 import { redirect } from 'react-router-dom';
 import { createOrder, getMenu, getOrder } from '../services/apiRestaurant';
 
+const isValidPhone = (str) =>
+    /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/.test(
+        str
+    );
+
+const INVALID_PHONE =
+    'Please give us your correct phone number. We might need it to contact you.';
+
 export const formatCurrency = (value) => {
     return new Intl.NumberFormat('en', {
         style: 'currency',
@@ -35,6 +43,15 @@ export const action = async ({ request }) => {
         cart: JSON.parse(data.cart),
         priority: data.priority === 'true',
     };
+
+    const errors = {};
+    if (!isValidPhone(order.phone)) {
+        errors.phone = INVALID_PHONE;
+    }
+
+    if (Object.keys(errors).length > 0) {
+        return errors;
+    }
 
     const newOrder = await createOrder(order);
 
