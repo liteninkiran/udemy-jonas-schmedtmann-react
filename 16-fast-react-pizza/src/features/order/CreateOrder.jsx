@@ -1,24 +1,25 @@
-import { useState } from "react";
-import { Form, useActionData, useNavigation } from "react-router-dom";
+import Button from '../../ui/Button';
+import { useState } from 'react';
+import { Form, useActionData, useNavigation } from 'react-router-dom';
 
 const fakeCart = [
     {
         pizzaId: 12,
-        name: "Mediterranean",
+        name: 'Mediterranean',
         quantity: 2,
         unitPrice: 16,
         totalPrice: 32,
     },
     {
         pizzaId: 6,
-        name: "Vegetale",
+        name: 'Vegetale',
         quantity: 1,
         unitPrice: 13,
         totalPrice: 13,
     },
     {
         pizzaId: 11,
-        name: "Spinach and Mushroom",
+        name: 'Spinach and Mushroom',
         quantity: 1,
         unitPrice: 15,
         totalPrice: 15,
@@ -29,27 +30,27 @@ const CreateOrder = () => {
     // const [withPriority, setWithPriority] = useState(false);
     const cart = fakeCart;
     const navigation = useNavigation();
-    const isSubmitting = navigation.state === "submitting";
+    const isSubmitting = navigation.state === 'submitting';
     const formErrors = useActionData();
     const buttonClasses = [
-        "bg-yellow-400",
-        "uppercase",
-        "tracking-wide",
-        "font-semibold",
-        "text-stone-800",
-        "py-3",
-        "px-4",
-        "inline-block",
-        "rounded-full",
-        "hover:bg-yellow-300",
-        "transition-colors",
-        "duration-300",
-        "focus:outline-none",
-        "focus:ring",
-        "focus:ring-yellow-300",
-        "focus:bg-yellow-300",
-        "focus:ring-offset-2",
-        "disabled:cursor-not-allowed",
+        'bg-yellow-400',
+        'uppercase',
+        'tracking-wide',
+        'font-semibold',
+        'text-stone-800',
+        'py-3',
+        'px-4',
+        'inline-block',
+        'rounded-full',
+        'hover:bg-yellow-300',
+        'transition-colors',
+        'duration-300',
+        'focus:outline-none',
+        'focus:ring',
+        'focus:ring-yellow-300',
+        'focus:bg-yellow-300',
+        'focus:ring-offset-2',
+        'disabled:cursor-not-allowed',
     ];
 
     return (
@@ -121,12 +122,9 @@ const CreateOrder = () => {
                         value={JSON.stringify(cart)}
                     />
 
-                    <button
-                        disabled={isSubmitting}
-                        className={buttonClasses.join(" ")}
-                    >
-                        {isSubmitting ? "Placing order...." : `Order now`}
-                    </button>
+                    <Button disabled={isSubmitting}>
+                        {isSubmitting ? 'Placing order....' : 'Order now'}
+                    </Button>
                 </div>
             </Form>
         </div>
