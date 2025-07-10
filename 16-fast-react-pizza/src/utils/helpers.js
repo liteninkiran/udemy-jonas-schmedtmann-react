@@ -53,9 +53,11 @@ export const action = async ({ request }) => {
         return errors;
     }
 
-    const newOrder = await createOrder(order);
+    // const newOrder = await createOrder(order);
 
-    console.log(order);
+    // console.log(order);
 
-    return redirect(`/order/${newOrder.id}`);
+    // return redirect(`/order/${newOrder.id}`);
+
+    return null;
 };
