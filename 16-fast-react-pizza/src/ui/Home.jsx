@@ -1,3 +1,5 @@
+import CreateUser from '../features/user/CreateUser';
+
 const Home = () => {
     return (
         <div className='my-10 px-4 text-center sm:my-16'>
@@ -8,6 +10,7 @@ const Home = () => {
                     Straight out of the oven, straight to you.
                 </span>
             </h1>
+            <CreateUser />
         </div>
     );
 };
