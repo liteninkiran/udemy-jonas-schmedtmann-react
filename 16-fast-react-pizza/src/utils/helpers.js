@@ -3,11 +3,11 @@ import { createOrder, getMenu, getOrder } from '../services/apiRestaurant';
 
 const isValidPhone = (str) =>
     /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/.test(
-        str
+        str,
     );
 
 const INVALID_PHONE =
-    'Please give us your correct phone number. We might need it to contact you.';
+    'Please enter a valid phone number. We might need it to contact you.';
 
 export const formatCurrency = (value) => {
     return new Intl.NumberFormat('en', {

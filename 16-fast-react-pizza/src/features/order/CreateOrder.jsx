@@ -32,93 +32,87 @@ const CreateOrder = () => {
     const navigation = useNavigation();
     const isSubmitting = navigation.state === 'submitting';
     const formErrors = useActionData();
-    const buttonClasses = [
-        'bg-yellow-400',
-        'uppercase',
-        'tracking-wide',
-        'font-semibold',
-        'text-stone-800',
-        'py-3',
-        'px-4',
-        'inline-block',
-        'rounded-full',
-        'hover:bg-yellow-300',
-        'transition-colors',
-        'duration-300',
-        'focus:outline-none',
-        'focus:ring',
-        'focus:ring-yellow-300',
-        'focus:bg-yellow-300',
-        'focus:ring-offset-2',
-        'disabled:cursor-not-allowed',
-    ];
+    const containerClasses =
+        'mb-5 flex flex-col gap-2 sm:flex-row sm:items-center';
 
     return (
-        <div>
-            <h2>Ready to order? Lets go!</h2>
+        <div className='px-4 py-6'>
+            <h2 className='mb-8 text-xl font-semibold'>
+                Ready to order? Let&apos;s go!
+            </h2>
 
-            <Form method="POST">
+            <Form method='POST'>
                 {/* First Name */}
-                <div>
-                    <label>First Name</label>
+                <div className={containerClasses}>
+                    <label htmlFor='customer' className='sm:basis-40'>
+                        First Name
+                    </label>
                     <input
-                        type="text"
-                        placeholder="Enter your name"
-                        name="customer"
+                        type='text'
+                        placeholder='Enter your name'
+                        name='customer'
                         required
-                        className="input"
+                        className='input grow'
                     />
                 </div>
 
                 {/* Phone Number */}
-                <div>
-                    <label>Phone number</label>
-                    <div>
+                <div className={containerClasses}>
+                    <label htmlFor='phone' className='sm:basis-40'>
+                        Phone number
+                    </label>
+                    <div className='grow'>
                         <input
-                            type="tel"
-                            name="phone"
-                            placeholder="Enter your telephone number"
+                            type='tel'
+                            name='phone'
+                            placeholder='Enter your telephone number'
                             required
-                            className="input"
+                            className='input w-full'
                         />
-                        {formErrors?.phone && <p>{formErrors.phone}</p>}
+                        {formErrors?.phone && (
+                            <p className='mt-2 rounded-md bg-red-100 p-2 text-xs text-red-700'>
+                                {formErrors.phone}
+                            </p>
+                        )}
                     </div>
                 </div>
 
                 {/* Address */}
-                <div>
-                    <label>Address</label>
-                    <div className="grow">
+                <div className={containerClasses}>
+                    <label htmlFor='address' className='sm:basis-40'>
+                        Address
+                    </label>
+                    <div className='grow'>
                         <input
-                            type="text"
-                            name="address"
-                            placeholder="Enter your address"
+                            type='text'
+                            name='address'
+                            placeholder='Enter your address'
                             required
-                            className="input"
+                            className='input w-full'
                         />
                     </div>
                 </div>
 
                 {/* Priority */}
-                <div>
+                <div className='mb-12 flex items-center gap-5'>
                     <input
-                        type="checkbox"
-                        name="priority"
-                        id="priority"
+                        type='checkbox'
+                        name='priority'
+                        id='priority'
                         // value={withPriority}
                         // onChange={(e) => setWithPriority(e.target.checked)}
-                        className="h-6 w-6 accent-yellow-400 focus:outline-none focus:ring focus:ring-yellow-400 focus:ring-offset-2"
+                        className='h-6 w-6 accent-yellow-400 focus:outline-none focus:ring focus:ring-yellow-400 focus:ring-offset-2'
                     />
-                    <label htmlFor="priority">
-                        Want to yo give your order priority?
+                    <label className='font-medium' htmlFor='priority'>
+                        Want to give your order priority?
                     </label>
                 </div>
 
                 {/* Submit */}
                 <div>
                     <input
-                        type="hidden"
-                        name="cart"
+                        type='hidden'
+                        name='cart'
                         value={JSON.stringify(cart)}
                     />
 
