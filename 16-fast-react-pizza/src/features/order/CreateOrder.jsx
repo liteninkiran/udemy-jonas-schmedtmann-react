@@ -1,6 +1,7 @@
-import Button from '../../ui/Button';
 import { useState } from 'react';
 import { Form, useActionData, useNavigation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import Button from '../../ui/Button';
 
 const fakeCart = [
     {
@@ -28,6 +29,7 @@ const fakeCart = [
 
 const CreateOrder = () => {
     // const [withPriority, setWithPriority] = useState(false);
+    const { username } = useSelector((state) => state.user);
     const cart = fakeCart;
     const navigation = useNavigation();
     const isSubmitting = navigation.state === 'submitting';
@@ -50,6 +52,7 @@ const CreateOrder = () => {
                     <input
                         type='text'
                         placeholder='Enter your name'
+                        defaultValue={username}
                         name='customer'
                         required
                         className='input grow'
