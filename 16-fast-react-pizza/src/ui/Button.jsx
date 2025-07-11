@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { baseClasses, secondaryClasses } from './classes';
 
-const Button = ({ children, disabled, to, type = 'primary' }) => {
+const Button = ({ children, disabled, to, type = 'primary', onClick }) => {
     const base = baseClasses.join(' ');
     const secondary = secondaryClasses.join(' ');
 
@@ -11,12 +11,25 @@ const Button = ({ children, disabled, to, type = 'primary' }) => {
         secondary,
     };
 
-    if (to)
+    if (to) {
         return (
             <Link to={to} className={styles[type]}>
                 {children}
             </Link>
         );
+    }
+
+    if (onClick) {
+        return (
+            <button
+                disabled={disabled}
+                className={styles[type]}
+                onClick={onClick}
+            >
+                {children}
+            </button>
+        );
+    }
 
     return (
         <button disabled={disabled} className={styles[type]}>
