@@ -23,7 +23,7 @@ const Order = () => {
     } = order;
 
     const deliveryIn = calcMinutesLeft(estimatedDelivery);
-    const mapFn = (item) => <OrderItem item={item} key={item.id} />;
+    const mapFn = (item) => <OrderItem item={item} key={item.pizzaId} />;
 
     return (
         <div className='space-y-8 px-4 py-6'>
