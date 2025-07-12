@@ -1,4 +1,4 @@
-import { searchOrderClasses } from '../../ui/classes';
+import { searchOrderClass } from '../../ui/classes';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -19,7 +19,7 @@ const SearchOrder = () => {
                 placeholder='Search order #'
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                className={searchOrderClasses.join(' ')}
+                className={searchOrderClass}
             />
         </form>
     );

@@ -1,5 +1,7 @@
 import { redirect } from 'react-router-dom';
 import { createOrder, getMenu, getOrder } from '../services/apiRestaurant';
+import store from '../store';
+import { clearCart } from '../features/cart/cartSlice';
 
 const isValidPhone = (str) =>
     /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/.test(
@@ -12,7 +14,7 @@ const INVALID_PHONE =
 export const formatCurrency = (value) => {
     return new Intl.NumberFormat('en', {
         style: 'currency',
-        currency: 'EUR',
+        currency: 'GBP',
     }).format(value);
 };
 
@@ -53,11 +55,9 @@ export const action = async ({ request }) => {
         return errors;
     }
 
-    // const newOrder = await createOrder(order);
+    const newOrder = await createOrder(order);
 
-    // console.log(order);
+    store.dispatch(clearCart());
 
-    // return redirect(`/order/${newOrder.id}`);
-
-    return null;
+    return redirect(`/order/${newOrder.id}`);
 };

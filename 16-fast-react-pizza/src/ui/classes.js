@@ -1,4 +1,4 @@
-export const baseClasses = [
+const baseClasses = [
     'inline-block',
     'text-sm',
     'rounded-full',
@@ -18,7 +18,7 @@ export const baseClasses = [
     'disabled:cursor-not-allowed',
 ];
 
-export const secondaryClasses = [
+const secondaryClasses = [
     'inline-block',
     'text-sm',
     'rounded-full',
@@ -45,7 +45,7 @@ export const secondaryClasses = [
     'md:py-3.5',
 ];
 
-export const searchOrderClasses = [
+const searchOrderClasses = [
     'w-28',
     'rounded-full',
     'bg-yellow-100',
@@ -62,7 +62,7 @@ export const searchOrderClasses = [
     'sm:w-64 sm:focus:w-72',
 ];
 
-export const cartContainerClasses = [
+const cartContainerClasses = [
     'flex',
     'items-center',
     'justify-between',
@@ -76,9 +76,28 @@ export const cartContainerClasses = [
     'md:text-base',
 ];
 
-export const cartParaClasses = [
+const cartParaClasses = [
     'space-x-4',
     'font-semibold',
     'text-stone-300',
     'sm:space-x-6',
 ];
+
+const orderContainerClasses = [
+    'mb-5',
+    'flex',
+    'flex-col',
+    'gap-2',
+    'sm:flex-row',
+    'sm:items-center',
+];
+
+const joinChar = ' ';
+const joinArray = (arr) => arr.join(joinChar);
+
+export const baseClass = joinArray(baseClasses);
+export const secondaryClass = joinArray(secondaryClasses);
+export const searchOrderClass = joinArray(searchOrderClasses);
+export const cartContainerClass = joinArray(cartContainerClasses);
+export const cartParaClass = joinArray(cartParaClasses);
+export const orderContainerClass = joinArray(orderContainerClasses);

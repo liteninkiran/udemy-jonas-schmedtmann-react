@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { getTotalCartPrice, getTotalCartQuantity } from './cartSlice';
 import { formatCurrency } from '../../utils/helpers';
-import { cartContainerClasses, cartParaClasses } from '../../ui/classes';
+import { cartContainerClass, cartParaClass } from '../../ui/classes';
 
 const CartOverview = () => {
     const totalCartQuantity = useSelector(getTotalCartQuantity);
@@ -11,8 +11,8 @@ const CartOverview = () => {
     if (!totalCartQuantity) return null;
 
     return (
-        <div className={cartContainerClasses.join(' ')}>
-            <p className={cartParaClasses.join(' ')}>
+        <div className={cartContainerClass}>
+            <p className={cartParaClass}>
                 <span>{totalCartQuantity} pizzas</span>
                 <span>{formatCurrency(totalCartPrice)}</span>
             </p>

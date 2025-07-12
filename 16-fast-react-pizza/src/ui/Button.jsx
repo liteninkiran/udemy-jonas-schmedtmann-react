@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
-import { baseClasses, secondaryClasses } from './classes';
+import { baseClass, secondaryClass } from './classes';
 
 const Button = ({ children, disabled, to, type = 'primary', onClick }) => {
-    const base = baseClasses.join(' ');
-    const secondary = secondaryClasses.join(' ');
+    const base = baseClass;
+    const secondary = secondaryClass;
 
     const styles = {
         primary: base + ' px-4 py-3 md:px-6 md:py-4',
