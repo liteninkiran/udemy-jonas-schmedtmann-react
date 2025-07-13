@@ -2,6 +2,7 @@ import { redirect } from 'react-router-dom';
 import { createOrder, getMenu, getOrder } from '../services/apiRestaurant';
 import store from '../store';
 import { clearCart } from '../features/cart/cartSlice';
+import { updateOrder } from '../services/apiRestaurant';
 
 const isValidPhone = (str) =>
     /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/.test(
@@ -37,7 +38,7 @@ export const menuLoader = async () => await getMenu();
 
 export const orderLoader = async ({ params }) => await getOrder(params.orderId);
 
-export const action = async ({ request }) => {
+export const createOrderAction = async ({ request }) => {
     const formData = await request.formData();
     const data = Object.fromEntries(formData);
     const order = {
@@ -60,4 +61,10 @@ export const action = async ({ request }) => {
     store.dispatch(clearCart());
 
     return redirect(`/order/${newOrder.id}`);
+};
+
+export const updateOrderAction = async ({ request, params }) => {
+    const data = { priority: true };
+    await updateOrder(params.orderId, data);
+    return null;
 };

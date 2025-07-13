@@ -7,6 +7,7 @@ import {
     formatDate,
 } from '../../utils/helpers';
 import { useEffect } from 'react';
+import UpdateOrder from './UpdateOrder';
 
 const Order = () => {
     const order = useLoaderData();
@@ -90,6 +91,7 @@ const Order = () => {
                     {formatCurrency(orderPrice + priorityPrice)}
                 </p>
             </div>
+            {!priority && <UpdateOrder />}
         </div>
     );
 };
