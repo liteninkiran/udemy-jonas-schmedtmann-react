@@ -3,7 +3,7 @@ import { getAddress } from '../../services/apiGeocoding';
 
 const URL = 'user/fetchAddress';
 const ADDRESS_ERROR =
-    'There was a problem getting your address. Make sure to fill this field!';
+    'There was a problem getting your address. Make sure to fill in this field.';
 
 const initialState = {
     username: 'Jonas',
