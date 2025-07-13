@@ -1,14 +1,16 @@
 import OrderItem from './OrderItem';
 
-import { useLoaderData } from 'react-router-dom';
+import { useFetcher, useLoaderData } from 'react-router-dom';
 import {
     calcMinutesLeft,
     formatCurrency,
     formatDate,
 } from '../../utils/helpers';
+import { useEffect } from 'react';
 
 const Order = () => {
     const order = useLoaderData();
+    const fetcher = useFetcher();
 
     // Everyone can search for all orders, so for privacy reasons we will
     // exclude names or address, these are only for the restaurant staff
@@ -23,7 +25,24 @@ const Order = () => {
     } = order;
 
     const deliveryIn = calcMinutesLeft(estimatedDelivery);
-    const mapFn = (item) => <OrderItem item={item} key={item.pizzaId} />;
+    const menu = fetcher?.data;
+    const getPizzaById = (id) => menu?.find((el) => el.id === id);
+    const getIngredients = (id) => getPizzaById(id)?.ingredients ?? [];
+    const mapFn = (item) => (
+        <OrderItem
+            item={item}
+            key={item.pizzaId}
+            isLoadingIngredients={fetcher.state === 'loading'}
+            ingredients={getIngredients(item.pizzaId)}
+        />
+    );
+    const effectFn = () => {
+        if (!fetcher.data && fetcher.state === 'idle') {
+            fetcher.load('/menu');
+        }
+    };
+
+    useEffect(effectFn, [fetcher]);
 
     return (
         <div className='space-y-8 px-4 py-6'>
