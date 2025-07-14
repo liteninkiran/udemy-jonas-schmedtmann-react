@@ -1,0 +1,7 @@
+{
+    "plugins": [],
+    "tabWidth": 4,
+    "singleQuote": true,
+    "jsxSingleQuote": true,
+    "printWidth": 80
+}
