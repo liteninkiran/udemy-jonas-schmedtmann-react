@@ -1,3 +1,4 @@
+import { formatCurrency } from '@utils/helpers';
 import styled from 'styled-components';
 
 const TableRow = styled.div`
@@ -38,3 +39,34 @@ const Discount = styled.div`
     font-weight: 500;
     color: var(--color-green-700);
 `;
+
+const DiscountFormatted = ({ discount }) => {
+    if (!discount) {
+        return <span>&mdash;</span>;
+    }
+    return <Discount>{formatCurrency(discount)}</Discount>;
+};
+
+const CabinRow = ({ cabin }) => {
+    const {
+        id: cabinId,
+        name,
+        maxCapacity,
+        regularPrice,
+        discount,
+        image,
+        description,
+    } = cabin;
+
+    return (
+        <TableRow role='row'>
+            <Img src={image} />
+            <Cabin>{name}</Cabin>
+            <div>Fits up to {maxCapacity} guests</div>
+            <Price>{formatCurrency(regularPrice)}</Price>
+            <DiscountFormatted discount={discount} />
+        </TableRow>
+    );
+};
+
+export default CabinRow;

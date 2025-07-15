@@ -3,7 +3,9 @@
         "baseUrl": ".",
         "paths": {
             "@ui/*": ["src/ui/*"],
-            "@services/*": ["src/services/*"]
+            "@services/*": ["src/services/*"],
+            "@features/*": ["src/features/*"],
+            "@utils/*": ["src/utils/*"]
         }
     },
     "include": ["src"]
