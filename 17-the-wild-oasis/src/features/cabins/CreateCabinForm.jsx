@@ -1,5 +1,3 @@
-import styled from 'styled-components';
-
 import Input from '@ui/Input';
 import Form from '@ui/Form';
 import Button from '@ui/Button';
@@ -29,7 +27,12 @@ const CreateCabinForm = () => {
     const { mutate, isPending: isCreating } = useMutation(mutation);
 
     const onFormSubmit = (data) => {
-        mutate(data);
+        const cabin = {
+            ...data,
+            image: data.image[0],
+        };
+        console.log(cabin);
+        mutate(cabin);
     };
     const onFormError = (errors) => {
         // console.log(errors);
@@ -123,7 +126,12 @@ const CreateCabinForm = () => {
             </FormRow>
 
             <FormRow label='Cabin Photo' error={errors?.image?.message}>
-                <FileInput id='image' accept='image/*' disabled={isCreating} />
+                <FileInput
+                    id='image'
+                    accept='image/*'
+                    disabled={isCreating}
+                    {...register('image', required)}
+                />
             </FormRow>
 
             <FormRow>
