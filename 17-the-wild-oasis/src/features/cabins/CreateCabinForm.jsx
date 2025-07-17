@@ -10,7 +10,7 @@ import Textarea from '@ui/Textarea';
 import { useCreateCabin } from './useCreateCabin';
 import { useUpdateCabin } from './useUpdateCabin';
 
-const CreateCabinForm = ({ cabin = {} }) => {
+const CreateCabinForm = ({ cabin = {}, onCloseModal }) => {
     const { id: editId, ...editValues } = cabin;
     const isEditSession = Boolean(editId);
     const { register, handleSubmit, reset, getValues, formState } = useForm({
@@ -35,6 +35,8 @@ const CreateCabinForm = ({ cabin = {} }) => {
         } else {
             createCabin(cabin, { onSuccess });
         }
+
+        onCloseModal?.();
     };
     const onFormError = (errors) => {
         // console.log(errors);
@@ -61,7 +63,10 @@ const CreateCabinForm = ({ cabin = {} }) => {
     };
 
     return (
-        <Form onSubmit={handleSubmit(onFormSubmit, onFormError)}>
+        <Form
+            onSubmit={handleSubmit(onFormSubmit, onFormError)}
+            type={onCloseModal ? 'modal' : 'regular'}
+        >
             <FormRow label='Cabin Name' error={errors?.name?.message}>
                 <Input
                     type='text'
@@ -140,7 +145,11 @@ const CreateCabinForm = ({ cabin = {} }) => {
 
             <FormRow>
                 {/* type is an HTML attribute */}
-                <Button $variation='secondary' type='reset'>
+                <Button
+                    $variation='secondary'
+                    type='reset'
+                    onClick={() => onCloseModal?.()}
+                >
                     Cancel
                 </Button>
                 <Button disabled={isWorking}>
