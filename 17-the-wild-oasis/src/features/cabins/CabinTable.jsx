@@ -21,7 +21,7 @@ const CabinTable = () => {
                 <div>Discount</div>
                 <div></div>
             </Table.Header>
-            {cabins.map(mapFn)}
+            <Table.Body data={cabins} render={mapFn} />
         </Table>
     );
 };
