@@ -1,52 +1,65 @@
 import Form from '@ui/Form';
 import FormRow from '@ui/FormRow';
 import Input from '@ui/Input';
-import { useSettings } from './useSettings';
 import Spinner from '@ui/Spinner';
+import { useSettings } from './useSettings';
+import { useUpdateSetting } from './useUpdateSetting';
 
 const UpdateSettingsForm = () => {
-    const {
-        isLoading,
-        settings: {
-            minBookingLength,
-            maxBookingLength,
-            maxGuestsPerBooking,
-            breakfastPrice,
-        } = {},
-    } = useSettings();
+    const { isLoading, settings } = useSettings();
+    const { isUpdating, updateSetting } = useUpdateSetting();
+
     if (isLoading) return <Spinner />;
-    return (
-        <Form>
-            <FormRow label='Minimum nights/booking'>
-                <Input
-                    type='number'
-                    id='min-nights'
-                    defaultValue={minBookingLength}
-                />
-            </FormRow>
-            <FormRow label='Maximum nights/booking'>
-                <Input
-                    type='number'
-                    id='max-nights'
-                    defaultValue={maxBookingLength}
-                />
-            </FormRow>
-            <FormRow label='Maximum guests/booking'>
-                <Input
-                    type='number'
-                    id='max-guests'
-                    defaultValue={maxGuestsPerBooking}
-                />
-            </FormRow>
-            <FormRow label='Breakfast price'>
-                <Input
-                    type='number'
-                    id='breakfast-price'
-                    defaultValue={breakfastPrice}
-                />
-            </FormRow>
-        </Form>
+
+    const handleUpdate = (e, field) => {
+        const { value } = e.target;
+        if (!value) {
+            return;
+        }
+        updateSetting({ [field]: value });
+    };
+
+    const inputs = [
+        {
+            label: 'Minimum nights/booking',
+            defaultValue: 'minBookingLength',
+            id: 'min-nights',
+            field: 'minBookingLength',
+        },
+        {
+            label: 'Maximum nights/booking',
+            defaultValue: 'maxBookingLength',
+            id: 'max-nights',
+            field: 'maxBookingLength',
+        },
+        {
+            label: 'Maximum guests/booking',
+            defaultValue: 'maxGuestsPerBooking',
+            id: 'max-guests',
+            field: 'maxGuestsPerBooking',
+        },
+        {
+            label: 'Breakfast price',
+            defaultValue: 'breakfastPrice',
+            id: 'breakfast-price',
+            field: 'breakfastPrice',
+        },
+    ];
+
+    const mapFn = (input) => (
+        <FormRow label={input.label} key={`${input.id}-label`}>
+            <Input
+                type='number'
+                id={input.id}
+                defaultValue={settings[input.defaultValue]}
+                disabled={isUpdating}
+                onBlur={(e) => handleUpdate(e, input.field)}
+                key={`${input.id}-input`}
+            />
+        </FormRow>
     );
+
+    return <Form>{inputs.map(mapFn)}</Form>;
 };
 
 export default UpdateSettingsForm;
