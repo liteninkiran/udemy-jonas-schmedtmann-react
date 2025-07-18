@@ -37,6 +37,13 @@ export const getBookings = async ({ filter, sortBy }) => {
         query = query[filter.method || 'eq'](filter.field, filter.value);
     }
 
+    if (sortBy) {
+        const options = {
+            ascending: sortBy.direction === 'asc',
+        };
+        query = query.order(sortBy.field, options);
+    }
+
     const { data, error } = await query;
 
     if (error) {
