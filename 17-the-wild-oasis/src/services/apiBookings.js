@@ -16,7 +16,7 @@ export const getBooking = async (id) => {
     return data;
 };
 
-export const getBookings = async () => {
+export const getBookings = async ({ filter, sortBy }) => {
     const fields = [
         'id',
         'created_at',
@@ -31,7 +31,11 @@ export const getBookings = async () => {
     ];
     const fieldList = fields.join(',');
     const options = { count: 'exact' };
-    const query = supabase.from('bookings').select(fieldList, options);
+    let query = supabase.from('bookings').select(fieldList, options);
+
+    if (filter) {
+        query = query[filter.method || 'eq'](filter.field, filter.value);
+    }
 
     const { data, error } = await query;
 

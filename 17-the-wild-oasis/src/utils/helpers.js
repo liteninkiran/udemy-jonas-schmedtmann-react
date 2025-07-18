@@ -27,3 +27,16 @@ export const formatCurrency = (value) =>
     new Intl.NumberFormat('en', { style: 'currency', currency: 'GBP' }).format(
         value
     );
+
+export const getSortArray = (arr) => {
+    const doubleFields = arr.flatMap((item) => [
+        { ...item, direction: 'desc' },
+        { ...item, direction: 'asc' },
+    ]);
+    return doubleFields.map((item) => ({
+        value: `${item.value}-${item.direction}`,
+        label: `${item.label} (${capitaliseString(item.direction)})`,
+    }));
+};
+
+const capitaliseString = (str) => str.charAt(0).toUpperCase() + str.slice(1);
