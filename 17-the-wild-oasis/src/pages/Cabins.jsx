@@ -8,7 +8,7 @@ const Cabins = () => {
     return (
         <>
             <Row type='horizontal'>
-                <Heading as='h1'>All cabins</Heading>
+                <Heading as='h1'>All Cabins</Heading>
                 <CabinTableOperations />
             </Row>
 

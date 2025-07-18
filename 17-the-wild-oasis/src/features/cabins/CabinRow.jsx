@@ -39,11 +39,6 @@ const Discount = styled.div`
     color: var(--color-green-700);
 `;
 
-const Button = styled.button`
-    padding: 5px;
-    margin-right: 5px;
-`;
-
 const DiscountFormatted = ({ discount }) => {
     if (!discount) {
         return <span>&mdash;</span>;

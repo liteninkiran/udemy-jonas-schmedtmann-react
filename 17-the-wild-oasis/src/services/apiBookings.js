@@ -16,6 +16,33 @@ export const getBooking = async (id) => {
     return data;
 };
 
+export const getBookings = async () => {
+    const fields = [
+        'id',
+        'created_at',
+        'startDate',
+        'endDate',
+        'numNights',
+        'numGuests',
+        'status',
+        'totalPrice',
+        'cabins(name)',
+        'guests(fullName, email)',
+    ];
+    const fieldList = fields.join(',');
+    const options = { count: 'exact' };
+    const query = supabase.from('bookings').select(fieldList, options);
+
+    const { data, error } = await query;
+
+    if (error) {
+        console.error(error);
+        throw new Error('Bookings could not be loaded');
+    }
+
+    return data;
+};
+
 // Returns all BOOKINGS that are were created after the given date. Useful to get bookings created in the last 30 days, for example.
 export const getBookingsAfterDate = async (date) => {
     const { data, error } = await supabase
@@ -55,7 +82,7 @@ export const getStaysTodayActivity = async () => {
         .from('bookings')
         .select('*, guests(fullName, nationality, countryFlag)')
         .or(
-            `and(status.eq.unconfirmed,startDate.eq.${getToday()}),and(status.eq.checked-in,endDate.eq.${getToday()})`,
+            `and(status.eq.unconfirmed,startDate.eq.${getToday()}),and(status.eq.checked-in,endDate.eq.${getToday()})`
         )
         .order('created_at');
 

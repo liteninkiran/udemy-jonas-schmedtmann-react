@@ -1,8 +1,9 @@
 import { useSearchParams } from 'react-router-dom';
 
+import Empty from '@ui/Empty';
+import Menus from '@ui/Menus';
 import Spinner from '@ui/Spinner';
 import Table from '@ui/Table';
-import Menus from '@ui/Menus';
 
 import CabinRow from './CabinRow';
 import { useCabins } from './useCabins';
@@ -10,6 +11,10 @@ import { useCabins } from './useCabins';
 const CabinTable = () => {
     const { isLoading, cabins } = useCabins();
     const [searchParams] = useSearchParams();
+
+    if (!cabins?.length) {
+        return <Empty resource='cabins' />;
+    }
 
     if (isLoading) return <Spinner />;
 
