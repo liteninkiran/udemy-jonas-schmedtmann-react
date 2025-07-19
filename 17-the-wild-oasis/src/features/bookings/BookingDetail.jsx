@@ -10,8 +10,9 @@ import Row from '@ui/Row';
 import Tag from '@ui/Tag';
 import Spinner from '@ui/Spinner';
 
-import { useMoveBack } from '../../hooks/useMoveBack';
+import { useMoveBack } from '@hooks/useMoveBack';
 import { useBooking } from './useBooking';
+import { useCheckout } from '@features/check-in-out/useCheckout';
 
 const HeadingGroup = styled.div`
     display: flex;
@@ -24,6 +25,7 @@ const BookingDetail = () => {
 
     const navigate = useNavigate();
     const moveBack = useMoveBack();
+    const { checkout, isCheckingOut } = useCheckout();
 
     if (isLoading) return <Spinner />;
 
@@ -35,6 +37,7 @@ const BookingDetail = () => {
         'checked-out': 'silver',
     };
     const checkinClick = () => navigate(`/checkin/${bookingId}`);
+    const checkoutClick = () => checkout(bookingId);
 
     return (
         <>
@@ -53,6 +56,12 @@ const BookingDetail = () => {
             <ButtonGroup>
                 {status === 'unconfirmed' && (
                     <Button onClick={checkinClick}>Check In</Button>
+                )}
+
+                {status === 'checked-in' && (
+                    <Button onClick={checkoutClick} disabled={isCheckingOut}>
+                        Check Out
+                    </Button>
                 )}
 
                 <Button $variation='secondary' onClick={moveBack}>

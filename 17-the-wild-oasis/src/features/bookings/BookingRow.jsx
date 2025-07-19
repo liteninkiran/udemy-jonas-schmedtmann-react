@@ -16,6 +16,7 @@ import ConfirmDelete from '@ui/ConfirmDelete';
 
 import { formatCurrency } from '@utils/helpers';
 import { formatDistanceFromNow } from '@utils/helpers';
+import { useCheckout } from '@features/check-in-out/useCheckout';
 
 const Cabin = styled.div`
     font-size: 1.6rem;
@@ -59,6 +60,7 @@ const BookingRow = ({
     },
 }) => {
     const navigate = useNavigate();
+    const { checkout, isCheckingOut } = useCheckout();
     const statusToTagName = {
         unconfirmed: 'blue',
         'checked-in': 'green',
@@ -67,7 +69,7 @@ const BookingRow = ({
 
     const detailsClick = () => navigate(`/bookings/${bookingId}`);
     const checkinClick = () => navigate(`/checkin/${bookingId}`);
-    const checkoutClick = () => {};
+    const checkoutClick = () => checkout(bookingId);
     const deleteClick = () => {};
 
     return (
@@ -119,7 +121,8 @@ const BookingRow = ({
                         {status === 'checked-in' && (
                             <Menus.Button
                                 icon={<CheckoutIcon />}
-                                onCLick={checkoutClick}
+                                onClick={checkoutClick}
+                                disabled={isCheckingOut}
                             >
                                 Check Out
                             </Menus.Button>
