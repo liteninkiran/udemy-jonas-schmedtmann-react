@@ -6,10 +6,11 @@ import { useNavigate } from 'react-router-dom';
 export const useCheckin = () => {
     const queryClient = useQueryClient();
     const navigate = useNavigate();
-    const mutationFn = (bookingId) =>
+    const mutationFn = ({ bookingId, breakfast }) =>
         updateBooking(bookingId, {
             status: 'checked-in',
             isPaid: true,
+            ...breakfast,
         });
 
     const onSuccess = (data) => {

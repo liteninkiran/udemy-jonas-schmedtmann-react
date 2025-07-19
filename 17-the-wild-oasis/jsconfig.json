@@ -6,7 +6,8 @@
             "@services/*": ["src/services/*"],
             "@features/*": ["src/features/*"],
             "@utils/*": ["src/utils/*"],
-            "@pages/*": ["src/pages/*"]
+            "@pages/*": ["src/pages/*"],
+            "@hooks/*": ["src/hooks/*"]
         }
     },
     "include": ["src"]

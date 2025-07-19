@@ -1,17 +1,19 @@
-import styled from 'styled-components';
-import BookingDataBox from '../../features/bookings/BookingDataBox';
-
-import Row from '../../ui/Row';
-import Heading from '../../ui/Heading';
-import ButtonGroup from '../../ui/ButtonGroup';
-import Button from '../../ui/Button';
-import ButtonText from '../../ui/ButtonText';
-
-import { useMoveBack } from '../../hooks/useMoveBack';
-import { useBooking } from '@features/bookings/useBooking';
-import Spinner from '@ui/Spinner';
 import { useEffect, useState } from 'react';
+import styled from 'styled-components';
+
+import Button from '@ui/Button';
+import ButtonGroup from '@ui/ButtonGroup';
+import ButtonText from '@ui/ButtonText';
 import Checkbox from '@ui/Checkbox';
+import Heading from '@ui/Heading';
+import Row from '@ui/Row';
+import Spinner from '@ui/Spinner';
+
+import BookingDataBox from '@features/bookings/BookingDataBox';
+import { useBooking } from '@features/bookings/useBooking';
+import { useSettings } from '@features/settings/useSettings';
+
+import { useMoveBack } from '@hooks/useMoveBack';
 import { formatCurrency } from '@utils/helpers';
 import { useCheckin } from './useCheckin';
 
@@ -25,9 +27,11 @@ const Box = styled.div`
 
 const CheckinBooking = () => {
     const [confirmPaid, setConfirmPaid] = useState(false);
+    const [addBreakfast, setAddBreakfast] = useState(false);
     const moveBack = useMoveBack();
     const { booking, isLoading } = useBooking();
     const { checkin, isCheckingIn } = useCheckin();
+    const { settings, isLoading: isLoadingSettings } = useSettings();
 
     const effectFn = () => {
         setConfirmPaid(booking?.isPaid ?? false);
@@ -35,7 +39,7 @@ const CheckinBooking = () => {
 
     useEffect(effectFn, [booking]);
 
-    if (isLoading) {
+    if (isLoading || isLoadingSettings) {
         return <Spinner />;
     }
 
@@ -48,13 +52,44 @@ const CheckinBooking = () => {
         numNights,
     } = booking;
 
+    const breakfastPrice = settings.breakfastPrice * numNights * numGuests;
+
+    const prices = {
+        total: totalPrice + breakfastPrice,
+        part1: totalPrice,
+        part2: breakfastPrice,
+    };
+
+    const formatted = {
+        total: formatCurrency(prices.total),
+        part1: formatCurrency(prices.part1),
+        part2: formatCurrency(prices.part2),
+    };
+
     const handleCheckin = () => {
         if (!confirmPaid) {
             return;
         }
-
-        checkin(bookingId);
+        const checkinOptions = {
+            bookingId,
+            breakfast: addBreakfast
+                ? {
+                      hasBreakfast: true,
+                      extrasPrice: breakfastPrice,
+                      totalPrice: prices.total,
+                  }
+                : {},
+        };
+        checkin(checkinOptions);
     };
+
+    const handleAddBreakfast = () => {
+        setAddBreakfast((value) => !value);
+        setConfirmPaid(false);
+    };
+
+    const breakdown = `${formatted.total} (${formatted.part1} + ${formatted.part2})`;
+    const grandTotal = !addBreakfast ? formatCurrency(totalPrice) : breakdown;
 
     return (
         <>
@@ -65,6 +100,18 @@ const CheckinBooking = () => {
 
             <BookingDataBox booking={booking} />
 
+            {!hasBreakfast && (
+                <Box>
+                    <Checkbox
+                        id='breakfast'
+                        checked={addBreakfast}
+                        onChange={handleAddBreakfast}
+                    >
+                        Want to add breakfast for{' '}
+                        {formatCurrency(breakfastPrice)}?
+                    </Checkbox>
+                </Box>
+            )}
             <Box>
                 <Checkbox
                     id='confirm'
@@ -73,7 +120,7 @@ const CheckinBooking = () => {
                     disabled={confirmPaid || isCheckingIn}
                 >
                     I confirm that {guests.fullName} has paid the total amount
-                    of {formatCurrency(totalPrice)}
+                    of {grandTotal}
                 </Checkbox>
             </Box>
 
