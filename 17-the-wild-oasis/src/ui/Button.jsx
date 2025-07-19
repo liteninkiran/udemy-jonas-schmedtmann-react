@@ -28,6 +28,11 @@ const variations = {
         &:hover {
             background-color: var(--color-brand-700);
         }
+
+        &:disabled {
+            color: var(--color-grey-200);
+            background-color: var(--color-brand-300);
+        }
     `,
     secondary: css`
         color: var(--color-grey-600);
