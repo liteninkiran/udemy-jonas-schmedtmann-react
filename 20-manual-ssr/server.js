@@ -6,6 +6,7 @@ const { pizzas } = require('./data');
 const React = require('react');
 
 const htmlTemplate = readFileSync(`${__dirname}/index.html`, 'utf-8');
+const clientJS = readFileSync(`${__dirname}/client.js`, 'utf-8');
 
 const server = createServer((req, res) => {
     const pathName = parse(req.url, true).pathname;
@@ -14,8 +15,9 @@ const server = createServer((req, res) => {
         const html = htmlTemplate.replace('%%%CONTENT%%%', renderedReact);
         res.writeHead(200, { 'Content-type': 'text/html' });
         res.end(html);
-    } else if (pathName === '/test') {
-        res.end('Test');
+    } else if (pathName === '/client.js') {
+        res.writeHead(200, { 'Content-type': 'application/javascript' });
+        res.end(clientJS);
     } else {
         res.end('URL cannot be found');
     }
