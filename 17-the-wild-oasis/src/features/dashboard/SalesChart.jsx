@@ -69,9 +69,15 @@ const SalesChart = ({ bookings, numDays }) => {
 
     const data = allDates.map(mapFn);
 
+    const fmt = 'dd MMM yyyy';
+    const startDate = format(allDates.at(0), fmt);
+    const endDate = format(allDates.at(-1), fmt);
+
     return (
         <StyledSalesChart>
-            <Heading as='h2'>Sales</Heading>
+            <Heading as='h2'>
+                Sales From {startDate} &mdash; {endDate}
+            </Heading>
 
             <ResponsiveContainer height={300} width='100%'>
                 <AreaChart data={data}>
