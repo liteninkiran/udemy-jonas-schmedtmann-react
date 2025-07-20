@@ -1,31 +1,82 @@
-import Button from '../../ui/Button';
-import Form from '../../ui/Form';
-import FormRow from '../../ui/FormRow';
-import Input from '../../ui/Input';
+import { useForm } from 'react-hook-form';
 
-// Email regex: /\S+@\S+\.\S+/
+import Button from '@ui/Button';
+import Form from '@ui/Form';
+import FormRow from '@ui/FormRow';
+import Input from '@ui/Input';
+
+const required = {
+    required: 'This field is required',
+};
 
 const SignupForm = () => {
+    const { register, formState, getValues, handleSubmit, reset } = useForm();
+    const { errors } = formState;
+
+    const inputs = [
+        {
+            id: 'fullName',
+            label: 'Full Name',
+            type: 'text',
+            validation: required,
+        },
+        {
+            id: 'email',
+            label: 'Email',
+            type: 'email',
+            validation: {
+                ...required,
+                pattern: {
+                    value: /\S+@\S+\.\S+/,
+                    message: 'Please provide a valid email address',
+                },
+            },
+        },
+        {
+            id: 'password',
+            label: 'Password (min 8 characters)',
+            type: 'password',
+            validation: {
+                ...required,
+                minLength: {
+                    value: 8,
+                    message: 'Password needs a minimum of 8 characters',
+                },
+            },
+        },
+        {
+            id: 'passwordConfirm',
+            label: 'Confirm password',
+            type: 'password',
+            validation: {
+                ...required,
+                validate: (value) =>
+                    value === getValues().password || 'Passwords need to match',
+            },
+        },
+    ];
+
+    const onSubmit = ({ fullName, email, password }) => {};
+
+    const mapFn = (input) => (
+        <FormRow
+            label={input.label}
+            error={errors?.[input.id]?.message}
+            key={input.id}
+        >
+            <Input
+                type={input.type}
+                id={input.id}
+                {...register(input.id, input.validation)}
+            />
+        </FormRow>
+    );
+
     return (
-        <Form>
-            <FormRow label='Full name' error={''}>
-                <Input type='text' id='fullName' />
-            </FormRow>
-
-            <FormRow label='Email address' error={''}>
-                <Input type='email' id='email' />
-            </FormRow>
-
-            <FormRow label='Password (min 8 characters)' error={''}>
-                <Input type='password' id='password' />
-            </FormRow>
-
-            <FormRow label='Repeat password' error={''}>
-                <Input type='password' id='passwordConfirm' />
-            </FormRow>
+        <Form onSubmit={handleSubmit(onSubmit)}>
+            {inputs.map(mapFn)}
 
             <FormRow>
-                {/* type is an HTML attribute! */}
                 <Button $variation='secondary' type='reset'>
                     Cancel
                 </Button>
