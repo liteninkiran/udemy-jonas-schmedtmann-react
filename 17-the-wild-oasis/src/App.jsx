@@ -17,6 +17,7 @@ import Users from '@pages/Users';
 import AppLayout from './ui/AppLayout';
 import { toasterProps } from '@utils/toaster';
 import ProtectedRoute from '@ui/ProtectedRoute';
+import { DarkModeProvider } from './context/DarkModeContext';
 
 const future = {
     v7_startTransition: true,
@@ -34,45 +35,47 @@ const queryClient = new QueryClient({
 
 const App = () => {
     return (
-        <QueryClientProvider client={queryClient}>
-            <ReactQueryDevtools initialIsOpen={false} />
-            <GlobalStyles />
-            <BrowserRouter future={future}>
-                <Routes>
-                    <Route
-                        element={
-                            <ProtectedRoute>
-                                <AppLayout />
-                            </ProtectedRoute>
-                        }
-                    >
+        <DarkModeProvider>
+            <QueryClientProvider client={queryClient}>
+                <ReactQueryDevtools initialIsOpen={false} />
+                <GlobalStyles />
+                <BrowserRouter future={future}>
+                    <Routes>
                         <Route
-                            index
-                            element={<Navigate replace to='dashboard' />}
-                        />
-                        <Route path='dashboard' element={<Dashboard />} />
-                        <Route path='bookings' element={<Bookings />} />
-                        <Route
-                            path='bookings/:bookingId'
-                            element={<Booking />}
-                        />
-                        <Route
-                            path='checkin/:bookingId'
-                            element={<Checkin />}
-                        />
-                        <Route path='cabins' element={<Cabins />} />
-                        <Route path='users' element={<Users />} />
-                        <Route path='settings' element={<Settings />} />
-                        <Route path='account' element={<Account />} />
-                    </Route>
+                            element={
+                                <ProtectedRoute>
+                                    <AppLayout />
+                                </ProtectedRoute>
+                            }
+                        >
+                            <Route
+                                index
+                                element={<Navigate replace to='dashboard' />}
+                            />
+                            <Route path='dashboard' element={<Dashboard />} />
+                            <Route path='bookings' element={<Bookings />} />
+                            <Route
+                                path='bookings/:bookingId'
+                                element={<Booking />}
+                            />
+                            <Route
+                                path='checkin/:bookingId'
+                                element={<Checkin />}
+                            />
+                            <Route path='cabins' element={<Cabins />} />
+                            <Route path='users' element={<Users />} />
+                            <Route path='settings' element={<Settings />} />
+                            <Route path='account' element={<Account />} />
+                        </Route>
 
-                    <Route path='login' element={<Login />} />
-                    <Route path='*' element={<PageNotFound />} />
-                </Routes>
-            </BrowserRouter>
+                        <Route path='login' element={<Login />} />
+                        <Route path='*' element={<PageNotFound />} />
+                    </Routes>
+                </BrowserRouter>
 
-            <Toaster {...toasterProps} />
-        </QueryClientProvider>
+                <Toaster {...toasterProps} />
+            </QueryClientProvider>
+        </DarkModeProvider>
     );
 };
 
