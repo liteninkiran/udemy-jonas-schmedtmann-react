@@ -12,7 +12,6 @@ export const useLogin = () => {
         navigate('/dashboard', { replace: true });
     };
     const onError = (err) => {
-        console.log('ERROR', err);
         toast.error('Incorrect email/password');
     };
     const mutationOptions = { mutationFn, onSuccess, onError };
