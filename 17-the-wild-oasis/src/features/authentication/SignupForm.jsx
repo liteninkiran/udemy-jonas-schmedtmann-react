@@ -4,12 +4,14 @@ import Button from '@ui/Button';
 import Form from '@ui/Form';
 import FormRow from '@ui/FormRow';
 import Input from '@ui/Input';
+import { useSignup } from './useSignup';
 
 const required = {
     required: 'This field is required',
 };
 
 const SignupForm = () => {
+    const { signup, isLoading } = useSignup();
     const { register, formState, getValues, handleSubmit, reset } = useForm();
     const { errors } = formState;
 
@@ -51,12 +53,18 @@ const SignupForm = () => {
             validation: {
                 ...required,
                 validate: (value) =>
-                    value === getValues().password || 'Passwords need to match',
+                    value === getValues().password || 'Passwords must match',
             },
         },
     ];
 
-    const onSubmit = ({ fullName, email, password }) => {};
+    const onSubmit = ({ fullName, email, password }) => {
+        const credentials = { fullName, email, password };
+        const options = {
+            onSettled: () => reset(),
+        };
+        signup(credentials, options);
+    };
 
     const mapFn = (input) => (
         <FormRow
@@ -67,6 +75,7 @@ const SignupForm = () => {
             <Input
                 type={input.type}
                 id={input.id}
+                disabled={isLoading}
                 {...register(input.id, input.validation)}
             />
         </FormRow>
