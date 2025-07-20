@@ -16,6 +16,7 @@ import PageNotFound from '@pages/PageNotFound';
 import Users from '@pages/Users';
 import AppLayout from './ui/AppLayout';
 import { toasterProps } from '@utils/toaster';
+import ProtectedRoute from '@ui/ProtectedRoute';
 
 const future = {
     v7_startTransition: true,
@@ -38,7 +39,13 @@ const App = () => {
             <GlobalStyles />
             <BrowserRouter future={future}>
                 <Routes>
-                    <Route element={<AppLayout />}>
+                    <Route
+                        element={
+                            <ProtectedRoute>
+                                <AppLayout />
+                            </ProtectedRoute>
+                        }
+                    >
                         <Route
                             index
                             element={<Navigate replace to='dashboard' />}
