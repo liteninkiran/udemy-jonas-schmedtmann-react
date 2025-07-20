@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { signup as mutationFn } from '../../services/apiAuth';
+import { signup as mutationFn } from '@services/apiAuth';
 import { toast } from 'react-hot-toast';
 
 const getSuccessMessage = (user) =>
