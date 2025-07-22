@@ -3,7 +3,12 @@ import Navigation from '@/app/_components/Navigation';
 import '@/app/_styles/globals.css';
 
 export const metadata = {
-    title: 'The Wild Oasis',
+    title: {
+        template: 'The Wild Oasis | %s',
+        default: 'The Wild Oasis',
+    },
+    description:
+        'Luxurious cabin hotel, located in the heart of the Italian Dolomites, surrounded by beautiful mountains and forests.',
 };
 
 const RootLayout = ({ children }) => {
