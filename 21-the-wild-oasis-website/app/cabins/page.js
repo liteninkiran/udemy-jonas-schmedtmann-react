@@ -1,11 +1,12 @@
 import CabinCard from '@/app/_components/CabinCard';
+import { getCabins } from '../_lib/data-service';
 
 export const metadata = {
     title: 'Cabins',
 };
 
-const Page = () => {
-    const cabins = [];
+const Page = async () => {
+    const cabins = await getCabins();
     const mapFn = (cabin) => <CabinCard cabin={cabin} key={cabin.id} />;
 
     return (

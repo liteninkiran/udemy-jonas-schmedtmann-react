@@ -17,7 +17,7 @@ const SelectCountry = async ({ defaultCountry, name, id, className }) => {
             defaultValue={`${defaultCountry}%${flag}`}
             className={className}
         >
-            <option value=''>Select country...</option>
+            <option value=''>Select Country...</option>
             {countries.map(mapFn)}
         </select>
     );
