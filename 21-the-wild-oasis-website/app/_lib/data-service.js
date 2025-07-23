@@ -12,7 +12,6 @@ export const getCabin = async (id) => {
         .eq('id', id)
         .single();
 
-    // For testing
     // await new Promise((res) => setTimeout(res, 1000));
 
     if (error) {
@@ -37,6 +36,7 @@ export const getCabinPrice = async (id) => {
 };
 
 export const getCabins = async () => {
+    // await new Promise((res) => setTimeout(res, 1000));
     const { data, error } = await supabase
         .from('cabins')
         .select('id, name, maxCapacity, regularPrice, discount, image')
