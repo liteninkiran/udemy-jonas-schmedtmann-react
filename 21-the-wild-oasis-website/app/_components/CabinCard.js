@@ -13,6 +13,7 @@ const CabinCard = ({ cabin }) => {
                     fill
                     alt={`Cabin ${name}`}
                     className='object-cover border-r border-primary-800'
+                    sizes='100vh'
                 />
             </div>
 

@@ -1,3 +1,4 @@
+import { notFound } from 'next/navigation';
 import { eachDayOfInterval } from 'date-fns';
 import { supabase } from './supabase';
 
@@ -16,6 +17,7 @@ export const getCabin = async (id) => {
 
     if (error) {
         console.error(error);
+        return notFound();
     }
 
     return data;
