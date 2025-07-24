@@ -1,3 +1,5 @@
+'use client';
+
 import {
     CalendarDaysIcon,
     HomeIcon,
@@ -5,6 +7,7 @@ import {
 } from '@heroicons/react/24/solid';
 import SignOutButton from './SignOutButton';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const navLinks = [
     {
@@ -38,9 +41,15 @@ const linkClasses = [
 ];
 
 const SideNavigation = () => {
+    const pathname = usePathname();
+    const activeClass = (href) => (pathname === href ? ' bg-primary-900' : '');
+    const linkClass = linkClasses.join(' ');
     const mapFn = (link) => (
         <li key={link.name}>
-            <Link className={linkClasses.join(' ')} href={link.href}>
+            <Link
+                className={linkClass + activeClass(link.href)}
+                href={link.href}
+            >
                 {link.icon}
                 <span>{link.name}</span>
             </Link>
