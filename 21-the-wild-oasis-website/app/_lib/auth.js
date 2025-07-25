@@ -23,7 +23,7 @@ const signIn1 = async ({ user, account, profile }) => {
         return false;
     }
 };
-const session = async () => {
+const session = async ({ session, user }) => {
     const guest = await getGuest(session.user.email);
     session.user.guestId = guest.id;
     return session;
@@ -31,7 +31,7 @@ const session = async () => {
 
 const authConfig = {
     providers,
-    callbacks: { authorized, signIn: signIn1 },
+    callbacks: { authorized, signIn: signIn1, session },
     pages: { signIn: '/login' },
 };
 
