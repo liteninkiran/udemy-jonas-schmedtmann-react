@@ -11,12 +11,12 @@ const authorized = ({ auth, request }) => !!auth?.user;
 const signIn1 = async ({ user, account, profile }) => {
     try {
         const existingGuest = await getGuest(user.email);
-
-        if (!existingGuest)
+        if (!existingGuest) {
             await createGuest({
                 email: user.email,
                 fullName: user.name,
             });
+        }
 
         return true;
     } catch {
@@ -31,14 +31,13 @@ const session = async () => {
 
 const authConfig = {
     providers,
-    // callbacks: { authorized, signIn: signIn1, session },
-    callbacks: { authorized },
-    // pages: { signIn: '/login' },
+    callbacks: { authorized, signIn: signIn1 },
+    pages: { signIn: '/login' },
 };
 
 export const {
     auth,
-    // signIn,
-    // signOut,
+    signIn,
+    signOut,
     handlers: { GET, POST },
 } = NextAuth(authConfig);
