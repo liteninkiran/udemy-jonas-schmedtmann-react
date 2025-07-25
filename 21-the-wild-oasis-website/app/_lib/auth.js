@@ -32,6 +32,7 @@ const session = async () => {
 const authConfig = {
     providers,
     // callbacks: { authorized, signIn: signIn1, session },
+    callbacks: { authorized },
     // pages: { signIn: '/login' },
 };
 
